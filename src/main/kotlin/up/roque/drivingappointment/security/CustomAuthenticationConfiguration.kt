@@ -11,7 +11,7 @@ class CustomAuthenticationConfiguration {
   @Autowired
   fun configureAuthenticationManager(
     auth: AuthenticationManagerBuilder,
-    authService: SecurityService,
+    authService: CustomUserDetailsService,
     passwordEncoder: PasswordEncoder,
   ) {
     auth.eraseCredentials(true).userDetailsService(authService).passwordEncoder(passwordEncoder)
