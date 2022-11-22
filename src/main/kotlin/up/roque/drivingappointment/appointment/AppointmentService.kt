@@ -8,16 +8,16 @@ import up.roque.drivingappointment.appointment.drivingtest.DrivingTestAppointmen
 import up.roque.drivingappointment.appointment.dto.AvailableAppointment
 import up.roque.drivingappointment.appointment.eye.EyeAppointment
 import up.roque.drivingappointment.appointment.eye.EyeAppointmentRepository
-import up.roque.drivingappointment.security.SecurityService
-import up.roque.drivingappointment.security.StudentAuthorized
+import up.roque.drivingappointment.web.security.SecurityService
+import up.roque.drivingappointment.web.security.StudentAuthorized
 import java.lang.RuntimeException
 import java.time.LocalDateTime
+import java.util.*
 import kotlin.random.Random.Default.nextInt
 
 @Service
 @Transactional(readOnly = true)
 class AppointmentService(
-  private val appointmentRepository: AppointmentRepository,
   private val drivingTestAppointmentRepository: DrivingTestAppointmentRepository,
   private val eyeAppointmentRepository: EyeAppointmentRepository,
   private val securityService: SecurityService,
@@ -63,15 +63,27 @@ class AppointmentService(
   @StudentAuthorized
   fun freeAppointment(id: Int, username: String) {
     val student = securityService.getStudent(username)
-    val reservedAppointment = drivingTestAppointmentRepository.findReservedAppointmentFor(student)
+    val reservedAppointment = drivingTestAppointmentRepository.findReservedAppointmentFor(student, id)
       .orElseThrow { NoReservedAppointmentForId(id, username) }
     reservedAppointment.free()
     drivingTestAppointmentRepository.save(reservedAppointment)
   }
+
+  @StudentAuthorized
+  fun findAllReservedAppointmentsFor(username: String): MutableList<DrivingTestAppointment> {
+    val student = securityService.getStudent(username)
+    return drivingTestAppointmentRepository.findAllReservedAppointmentsFor(student)
+  }
+
+  fun getAppointmentBySecret(key: UUID): DrivingTestAppointment {
+    return drivingTestAppointmentRepository.findBySecretKey(key).orElseThrow { NoAppointmentFoundForKey(key) }
+  }
+
 
   class NoReservedAppointmentForId(id: Int, username: String) :
     RuntimeException("No appointment is reserved with id:$id and student:$username")
 
   class AppointmentAlreadyReserved : RuntimeException("Appointment is already reserved")
   class NoAppointmentFoundForId(id: Int) : RuntimeException("No appointment found for id:$id")
+  class NoAppointmentFoundForKey(key: UUID) : RuntimeException("No appointment found for key:$key")
 }

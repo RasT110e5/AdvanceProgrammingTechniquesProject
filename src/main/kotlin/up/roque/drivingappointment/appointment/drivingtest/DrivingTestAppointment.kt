@@ -5,10 +5,12 @@ import up.roque.drivingappointment.appointment.Appointment
 import up.roque.drivingappointment.appointment.dto.ReservedDrivingTestAppointment
 import up.roque.drivingappointment.user.student.Student
 import java.util.*
+import javax.persistence.Column
 import javax.persistence.Entity
 
 @Entity
 open class DrivingTestAppointment : Appointment() {
+  @Column(length = 16)
   open var secretKey: UUID = UUID.randomUUID()
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
@@ -22,7 +24,7 @@ open class DrivingTestAppointment : Appointment() {
 
   @Override
   override fun toString(): String =
-    this::class.simpleName + "(secretKey = $secretKey, appointment= ${super.toString()} )"
+    this::class.simpleName + "(secretKey = $secretKey)"
 
   fun toReservedDto(): ReservedDrivingTestAppointment {
     return ReservedDrivingTestAppointment(this.id, this.secretKey, this.time, this.available)

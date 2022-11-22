@@ -1,4 +1,4 @@
-package up.roque.drivingappointment.security
+package up.roque.drivingappointment.web.security
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

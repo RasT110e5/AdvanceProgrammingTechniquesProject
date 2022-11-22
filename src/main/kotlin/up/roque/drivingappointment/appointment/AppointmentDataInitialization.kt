@@ -1,10 +1,10 @@
-package up.roque.drivingappointment.data.initialization
+package up.roque.drivingappointment.appointment
 
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.annotation.Configuration
 import up.roque.drivingappointment.appointment.AppointmentService
 import up.roque.drivingappointment.appointment.drivingtest.DrivingTestAppointment
-import up.roque.drivingappointment.security.SecurityService
+import up.roque.drivingappointment.web.security.SecurityService
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.util.concurrent.Callable

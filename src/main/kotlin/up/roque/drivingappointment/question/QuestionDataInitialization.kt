@@ -1,11 +1,9 @@
-package up.roque.drivingappointment.data.initialization
+package up.roque.drivingappointment.question
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.ClassPathResource
-import up.roque.drivingappointment.question.QuestionDto
 import up.roque.drivingappointment.user.admin.AdminService
 
 @Configuration

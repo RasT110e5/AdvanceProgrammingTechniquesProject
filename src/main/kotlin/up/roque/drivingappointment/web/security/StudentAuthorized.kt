@@ -1,4 +1,4 @@
-package up.roque.drivingappointment.security
+package up.roque.drivingappointment.web.security
 
 import org.springframework.security.access.prepost.PreAuthorize
 import java.lang.annotation.Inherited

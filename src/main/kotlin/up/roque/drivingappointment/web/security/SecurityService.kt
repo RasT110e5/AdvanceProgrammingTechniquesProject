@@ -1,4 +1,4 @@
-package up.roque.drivingappointment.security
+package up.roque.drivingappointment.web.security
 
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.userdetails.UsernameNotFoundException
@@ -50,18 +50,17 @@ class SecurityService(
   }
 
   fun findStudent(username: String): Optional<Student> {
-    log.info("Finding student with username: $username")
     return studentRepository.findById(username)
   }
 
   fun getStudent(username: String): Student {
     log.info("Fetching student with username: $username")
-    return findStudent(username).orElseThrow { UsernameNotFoundException("For username: $username") }
+    return findStudent(username)
+      .orElseThrow { UsernameNotFoundException("Username could not by found with username: $username") }
   }
 
   fun findAdmin(username: String): Optional<Admin> {
-    log.info("Finding admin with username: $username")
-    return adminRepository.findById(username);
+    return adminRepository.findById(username)
   }
 
 }

@@ -1,4 +1,4 @@
-package up.roque.drivingappointment.security
+package up.roque.drivingappointment.web.security
 
 import org.slf4j.LoggerFactory
 import org.springframework.security.core.authority.SimpleGrantedAuthority

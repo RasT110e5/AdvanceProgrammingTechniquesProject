@@ -1,9 +1,9 @@
-package up.roque.drivingappointment.data.initialization
+package up.roque.drivingappointment.user
 
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.annotation.Configuration
-import up.roque.drivingappointment.security.SecurityService
+import up.roque.drivingappointment.web.security.SecurityService
 
 @Configuration
 class UserDataInitialization(private val securityService: SecurityService) : InitializingBean {

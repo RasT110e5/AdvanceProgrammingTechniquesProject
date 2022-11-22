@@ -4,9 +4,10 @@ import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import up.roque.drivingappointment.appointment.dto.AvailableAppointment
 import up.roque.drivingappointment.appointment.dto.ReservedDrivingTestAppointment
-import up.roque.drivingappointment.security.StudentAuthorized
+import up.roque.drivingappointment.web.security.StudentAuthorized
 import up.roque.drivingappointment.web.BaseRestResponse
 import java.security.Principal
+import java.util.stream.Collectors
 
 @RestController
 @RequestMapping("/api/appointments")
@@ -34,5 +35,12 @@ class AppointmentController(private val appointmentService: AppointmentService) 
   ): ResponseEntity<BaseRestResponse<Nothing?>> {
     appointmentService.freeAppointment(id, principal.name)
     return BaseRestResponse.ok("Appointment is now free")
+  }
+
+  @GetMapping("/reserved")
+  fun getAllReservedAppointmentsFor(principal: Principal)
+          : ResponseEntity<BaseRestResponse<MutableList<ReservedDrivingTestAppointment>>> {
+    val appointments = appointmentService.findAllReservedAppointmentsFor(principal.name)
+    return BaseRestResponse.ok(appointments.stream().map { it.toReservedDto() }.collect(Collectors.toList()))
   }
 }

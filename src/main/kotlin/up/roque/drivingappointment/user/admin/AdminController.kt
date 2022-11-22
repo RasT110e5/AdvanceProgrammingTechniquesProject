@@ -6,7 +6,7 @@ import up.roque.drivingappointment.question.ModifyQuestionDto
 import up.roque.drivingappointment.question.QuestionDto
 import up.roque.drivingappointment.question.option.ModifyOptionDto
 import up.roque.drivingappointment.question.option.OptionDto
-import up.roque.drivingappointment.security.AdminAuthorized
+import up.roque.drivingappointment.web.security.AdminAuthorized
 import up.roque.drivingappointment.web.BaseRestResponse
 import java.util.stream.Collectors
 
