@@ -53,7 +53,7 @@ class AppointmentService(
   @StudentAuthorized
   fun reserveAppointment(id: Int, username: String): DrivingTestAppointment {
     val student = securityService.getStudent(username)
-    val appointment = drivingTestAppointmentRepository.findById(id).orElseThrow { NoAppointmentFoundForId() }
+    val appointment = drivingTestAppointmentRepository.findById(id).orElseThrow { NoAppointmentFoundForId(id) }
     if (!appointment.isAvailable()) throw AppointmentAlreadyReserved()
     appointment.reserve(student)
     return drivingTestAppointmentRepository.save(appointment)
@@ -72,6 +72,6 @@ class AppointmentService(
   class NoReservedAppointmentForId(id: Int, username: String) :
     RuntimeException("No appointment is reserved with id:$id and student:$username")
 
-  class AppointmentAlreadyReserved : RuntimeException()
-  class NoAppointmentFoundForId : RuntimeException()
+  class AppointmentAlreadyReserved : RuntimeException("Appointment is already reserved")
+  class NoAppointmentFoundForId(id: Int) : RuntimeException("No appointment found for id:$id")
 }

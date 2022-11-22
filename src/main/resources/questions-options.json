@@ -1,0 +1,189 @@
+[
+  {
+    "text": "If you have been identified as a 'problem driver' for repeated traffic violations, you may be required to ...",
+    "options": [
+      {
+        "text": "attend a DMV driver improvement interview.",
+        "correct": false
+      },
+      {
+        "text": "drive supervised for a specified period.",
+        "correct": false
+      },
+      {
+        "text": "surrender your license.",
+        "correct": true
+      }
+    ]
+  },
+  {
+    "text": "If you have been arrested for DUI but you refuse to submit to a chemical test for alcohol, ...",
+    "options": [
+      {
+        "text": "you will be charged with Refusal as well as DUI",
+        "correct": true
+      },
+      {
+        "text": "your vehicle will be impounded",
+        "correct": false
+      },
+      {
+        "text": "you will be jailed.",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "text": "Unbalanced tires or low tire pressures can cause ...",
+    "options": [
+      {
+        "text": " fast tire wear.",
+        "correct": true
+      },
+      {
+        "text": " increased fuel economy.",
+        "correct": false
+      },
+      {
+        "text": " decreased stopping distance.",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "text": "When two vehicles meet on a steep mountain road where neither can pass, which vehicle has the right-of-way?",
+    "options": [
+      {
+        "text": "The vehicle traveling downhill.",
+        "correct": false
+      },
+      {
+        "text": "Neither vehicle",
+        "correct": false
+      },
+      {
+        "text": "The vehicle traveling uphill",
+        "correct": true
+      }
+    ]
+  },
+  {
+    "text": "When must you dim your high-beam headlights?",
+    "options": [
+      {
+        "text": "Whenever you are within 1000 feet of any other vehicle.",
+        "correct": false
+      },
+      {
+        "text": "Whenever you are within 300 feet of an oncoming vehicle or following another vehicle within 500 feet.",
+        "correct": false
+      },
+      {
+        "text": "Whenever you are within 500 feet of an oncoming vehicle or following another vehicle within 300 feet.",
+        "correct": true
+      }
+    ]
+  },
+  {
+    "text": "If your license has been suspended, how can you regain your driving privileges after the suspension period ends?",
+    "options": [
+      {
+        "text": "Ask the DMV for your license back.",
+        "correct": false
+      },
+      {
+        "text": "Request a duplicate copy of your license from a DMV office.",
+        "correct": true
+      },
+      {
+        "text": "Apply for a new license.",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "text": "The danger areas around trucks and buses where crashes are more likely to occur are called ...",
+    "options": [
+      {
+        "text": "No-Zones.",
+        "correct": true
+      },
+      {
+        "text": "empty spots.",
+        "correct": false
+      },
+      {
+        "text": "no-passing zones",
+        "correct": false
+      },
+      {
+        "text": "round spots.",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "text": "An __________ is the connection of a freeway to a road or another freeway by a series of ramps.",
+    "options": [
+      {
+        "text": "interchange",
+        "correct": true
+      },
+      {
+        "text": "entrance ramp",
+        "correct": false
+      },
+      {
+        "text": "acceleration lane",
+        "correct": false
+      },
+      {
+        "text": "exit ramp",
+        "correct": false
+      }
+    ]
+  },
+  {
+    "text": "The numeric point value assigned to each type of violation is based on the violation's ...",
+    "options": [
+      {
+        "text": "severity.",
+        "correct": false
+      },
+      {
+        "text": "frequency",
+        "correct": false
+      },
+      {
+        "text": "likelihood of causing death or injury.",
+        "correct": false
+      },
+      {
+        "text": "likelihood of contributing to a crash",
+        "correct": true
+      }
+    ]
+  },
+  {
+    "text": "If you have been involved in a crash in which someone was seriously injured, a law enforcement officer may require you to submit to ...",
+    "options": [
+      {
+        "text": "release of your medical records.",
+        "correct": false
+      },
+      {
+        "text": "a chemical sweat test.",
+        "correct": false
+      },
+      {
+        "text": "a chemical breath test",
+        "correct": false
+      },
+      {
+        "text": "a chemical bloor or urine test",
+        "correct": true
+      }
+    ]
+  }
+]
+]

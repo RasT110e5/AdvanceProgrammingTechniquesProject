@@ -1,0 +1,37 @@
+### Get all questions with options
+GET localhost:8080/api/questions
+Authorization: Basic admin1 admin
+
+### Get question
+GET localhost:8080/api/questions/2
+Authorization: Basic admin1 admin
+
+### Modify question
+POST localhost:8080/api/questions
+Authorization: Basic admin1 admin
+Content-Type: application/json
+
+{
+  "id": 1,
+  "newText": "Modified text question?"
+}
+
+### Get all options
+GET localhost:8080/api/questions/options
+Authorization: Basic admin1 admin
+
+### Get option
+GET localhost:8080/api/questions/options/1
+Authorization: Basic admin1 admin
+
+### Modify option
+POST localhost:8080/api/questions/options
+Authorization: Basic admin1 admin
+Content-Type: application/json
+
+{
+  "id": 1,
+  "newText": "Modified text option",
+  "correct": false,
+  "questionId": 2
+}

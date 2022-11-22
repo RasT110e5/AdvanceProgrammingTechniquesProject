@@ -19,7 +19,7 @@ class DrivingTestAppointmentRepositoryTests {
   fun drivingTestAppointmentRepositoryTests_() {
     saveNewAppointment(false)
     saveNewAppointment(true)
-    assertThat(repository.findAllAvailable()).isNotEmpty.hasSize(1)
+    assertThat(repository.findAllAvailableAfter(LocalDateTime.now().minusMinutes(1))).isNotEmpty.hasSize(1)
   }
 
   private fun saveNewAppointment(available: Boolean) {
