@@ -13,20 +13,24 @@ class ExamService(
   private val examAttemptRepository: ExamAttemptRepository,
   private val appointmentService: AppointmentService
 ) {
+
   @Transactional
   fun startExam(key: UUID): ExamAttempt {
-    val appointment = appointmentService.getAppointmentBySecret(key)
-    if (!appointment.isValidNow()) throw AppointmentIsNotValidForExamNow(appointment)
-    val examAttemptOptional = examAttemptRepository.findByAppointment(appointment)
-    return if (examAttemptOptional.isPresent)
-      examAttemptOptional.get()
-    else {
-      val examAttempt = ExamAttempt()
-      examAttempt.appointment = appointment
-      examAttemptRepository.save(examAttempt)
-    }
+    val appointment = appointmentService.getValidAppointmentBySecret(key)
+    return getExamAttempt(appointment)
   }
 
-  class AppointmentIsNotValidForExamNow(appointment: DrivingTestAppointment) :
-    RuntimeException("Appointment '$appointment' is not valid for exam now, only 1 hour from start time.")
+  private fun getExamAttempt(appointment: DrivingTestAppointment): ExamAttempt {
+    val examAttemptOptional = examAttemptRepository.findByAppointment(appointment)
+    return if (examAttemptOptional.isPresent) examAttemptOptional.get()
+    else createNewExamAttempt(appointment)
+  }
+
+  private fun createNewExamAttempt(appointment: DrivingTestAppointment): ExamAttempt {
+    val examAttempt = ExamAttempt()
+    examAttempt.appointment = appointment
+    return examAttemptRepository.save(examAttempt)
+  }
+
+
 }

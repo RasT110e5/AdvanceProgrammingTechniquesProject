@@ -1,3 +1,7 @@
 ### Start exam
 GET localhost:8080/exams/start?key=d35bf50a-73b5-4934-b6c5-cc4a26961319
 Authorization: Basic student1 password
+
+### Start exam with glasses
+GET localhost:8080/exams/start?key=d35bf50a-73b5-4934-b6c5-cc4a26961319?glasses=true
+Authorization: Basic student1 password

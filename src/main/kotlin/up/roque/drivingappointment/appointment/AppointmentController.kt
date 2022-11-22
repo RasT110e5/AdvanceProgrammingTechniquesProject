@@ -2,8 +2,10 @@ package up.roque.drivingappointment.appointment
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import up.roque.drivingappointment.appointment.drivingtest.DrivingTestAppointment
 import up.roque.drivingappointment.appointment.dto.AvailableAppointment
-import up.roque.drivingappointment.appointment.dto.ReservedDrivingTestAppointment
+import up.roque.drivingappointment.appointment.dto.ReservedTestAppointment
+import up.roque.drivingappointment.appointment.eye.EyeAppointment
 import up.roque.drivingappointment.web.security.StudentAuthorized
 import up.roque.drivingappointment.web.BaseRestResponse
 import java.security.Principal
@@ -23,7 +25,7 @@ class AppointmentController(private val appointmentService: AppointmentService) 
   fun reserveAppointment(
     @PathVariable(value = "id") id: Int,
     principal: Principal,
-  ): ResponseEntity<BaseRestResponse<ReservedDrivingTestAppointment>> {
+  ): ResponseEntity<BaseRestResponse<ReservedTestAppointment>> {
     val reservedAppointment = appointmentService.reserveAppointment(id, principal.name)
     return BaseRestResponse.ok(reservedAppointment.toReservedDto())
   }
@@ -39,8 +41,15 @@ class AppointmentController(private val appointmentService: AppointmentService) 
 
   @GetMapping("/reserved")
   fun getAllReservedAppointmentsFor(principal: Principal)
-          : ResponseEntity<BaseRestResponse<MutableList<ReservedDrivingTestAppointment>>> {
+          : ResponseEntity<BaseRestResponse<MutableList<ReservedTestAppointment>>> {
     val appointments = appointmentService.findAllReservedAppointmentsFor(principal.name)
-    return BaseRestResponse.ok(appointments.stream().map { it.toReservedDto() }.collect(Collectors.toList()))
+    return BaseRestResponse.ok(toReservedDto(appointments))
+  }
+
+  private fun toReservedDto(appointments: MutableList<Appointment>): MutableList<ReservedTestAppointment> {
+    return appointments.stream().map {
+      if (it is DrivingTestAppointment) it.toReservedDto()
+      else (it as EyeAppointment).toReservedDto()
+    }.collect(Collectors.toList())
   }
 }

@@ -3,6 +3,7 @@ package up.roque.drivingappointment.appointment.drivingtest
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
+import up.roque.drivingappointment.appointment.Appointment
 import up.roque.drivingappointment.appointment.dto.AvailableAppointment
 import up.roque.drivingappointment.user.student.Student
 import java.time.LocalDateTime

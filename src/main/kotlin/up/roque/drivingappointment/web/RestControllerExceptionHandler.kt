@@ -16,8 +16,8 @@ class RestControllerExceptionHandler {
   @ExceptionHandler
   fun handleUnidentifiedException(ex: Exception)
           : ResponseEntity<BaseRestResponse<Nothing?>> {
-    log.warn("Unidentified exception thrown")
-    return BaseRestResponse.badRequest("Unknown error occurred during the request, contact support.")
+    log.error("Unidentified exception thrown", ex)
+    return BaseRestResponse.internalError("Unknown error occurred during the request, contact support.")
   }
 
   @ExceptionHandler
@@ -70,9 +70,16 @@ class RestControllerExceptionHandler {
   }
 
   @ExceptionHandler
-  fun handleAppointmentIsNotValid(ex: ExamService.AppointmentIsNotValidForExamNow)
+  fun handleAppointmentIsNotValid(ex: AppointmentService.AppointmentIsNotValidForExamNow)
           : ResponseEntity<BaseRestResponse<Nothing?>> {
     log.warn("Appointment is not valid for exam exception thrown")
+    return BaseRestResponse.badRequest(ex.message!!)
+  }
+
+  @ExceptionHandler
+  fun handleAppointmentIsNotValid(ex: AppointmentService.NoEyeAppointmentIsAvailable)
+          : ResponseEntity<BaseRestResponse<Nothing?>> {
+    log.warn("No eye appointment is available to start exam with glasses exception thrown")
     return BaseRestResponse.badRequest(ex.message!!)
   }
 }

@@ -2,9 +2,8 @@ package up.roque.drivingappointment.appointment.eye
 
 import org.hibernate.Hibernate
 import up.roque.drivingappointment.appointment.Appointment
+import up.roque.drivingappointment.appointment.dto.ReservedTestAppointment
 import javax.persistence.Entity
-import javax.persistence.Table
-import kotlin.random.Random.Default.nextInt
 
 @Entity
 open class EyeAppointment : Appointment() {
@@ -24,5 +23,18 @@ open class EyeAppointment : Appointment() {
   @Override
   override fun toString(): String {
     return this::class.simpleName + "(approved = $approved , doctorName = $doctorName, appointment= ${super.toString()} )"
+  }
+
+  fun toDto(): EyeAppointmentDto {
+    return EyeAppointmentDto(this.id, this.time, this.doctorName)
+  }
+
+  fun toReservedDto(): ReservedTestAppointment {
+    return ReservedTestAppointment(
+      id = this.id,
+      time = this.time,
+      available = this.available,
+      doctorName = this.doctorName
+    )
   }
 }

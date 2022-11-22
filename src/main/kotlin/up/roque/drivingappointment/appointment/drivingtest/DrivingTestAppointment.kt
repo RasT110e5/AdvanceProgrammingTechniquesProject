@@ -2,8 +2,7 @@ package up.roque.drivingappointment.appointment.drivingtest
 
 import org.hibernate.Hibernate
 import up.roque.drivingappointment.appointment.Appointment
-import up.roque.drivingappointment.appointment.dto.ReservedDrivingTestAppointment
-import up.roque.drivingappointment.user.student.Student
+import up.roque.drivingappointment.appointment.dto.ReservedTestAppointment
 import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity
@@ -26,7 +25,7 @@ open class DrivingTestAppointment : Appointment() {
   override fun toString(): String =
     this::class.simpleName + "(secretKey = $secretKey)"
 
-  fun toReservedDto(): ReservedDrivingTestAppointment {
-    return ReservedDrivingTestAppointment(this.id, this.secretKey, this.time, this.available)
+  fun toReservedDto(): ReservedTestAppointment {
+    return ReservedTestAppointment(this.id, this.secretKey, this.time, this.available)
   }
 }

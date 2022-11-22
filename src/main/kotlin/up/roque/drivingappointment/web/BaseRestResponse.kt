@@ -33,5 +33,10 @@ data class BaseRestResponse<T>(
       val badRequestResponse = BaseRestResponse(HttpStatus.BAD_REQUEST, message, content = null)
       return ResponseEntity.badRequest().body(badRequestResponse)
     }
+
+    fun internalError(message: String): ResponseEntity<BaseRestResponse<Nothing?>> {
+      val internalServerResponse = BaseRestResponse(HttpStatus.INTERNAL_SERVER_ERROR, message, content = null)
+      return ResponseEntity.internalServerError().body(internalServerResponse)
+    }
   }
 }
