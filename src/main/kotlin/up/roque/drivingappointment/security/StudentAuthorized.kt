@@ -6,5 +6,5 @@ import java.lang.annotation.Inherited
 @Target(AnnotationTarget.FUNCTION, AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
 @Inherited
-@PreAuthorize("hasAuthority('$ADMIN')")
-annotation class AdminAuthorized
+@PreAuthorize("hasAuthority('$STUDENT')")
+annotation class StudentAuthorized

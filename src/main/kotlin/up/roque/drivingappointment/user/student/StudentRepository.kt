@@ -1,7 +1,7 @@
-package up.roque.drivingappointment.users.admin
+package up.roque.drivingappointment.user.student
 
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 
 @Repository
-interface AdminRepository : JpaRepository<Admin, String>
+interface StudentRepository : JpaRepository<Student, String>

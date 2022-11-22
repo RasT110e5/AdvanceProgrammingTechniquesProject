@@ -1,0 +1,7 @@
+### Get all available appointments
+GET localhost:8080/api/appointments
+Authorization: Basic student1 password
+
+### Take appointment
+POST localhost:8080/api/appointments/reserve/139
+Authorization: Basic student1 password

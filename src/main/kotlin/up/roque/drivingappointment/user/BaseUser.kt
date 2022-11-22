@@ -1,4 +1,4 @@
-package up.roque.drivingappointment.users
+package up.roque.drivingappointment.user
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.Hibernate

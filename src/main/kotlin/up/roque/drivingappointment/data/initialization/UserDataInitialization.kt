@@ -1,4 +1,4 @@
-package up.roque.drivingappointment.users
+package up.roque.drivingappointment.data.initialization
 
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.InitializingBean
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration
 import up.roque.drivingappointment.security.SecurityService
 
 @Configuration
-class UserInitializationConfiguration(private val securityService: SecurityService) : InitializingBean {
+class UserDataInitialization(private val securityService: SecurityService) : InitializingBean {
   private val log = LoggerFactory.getLogger(this.javaClass)
 
   override fun afterPropertiesSet() {

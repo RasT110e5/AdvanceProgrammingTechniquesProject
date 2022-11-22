@@ -1,12 +1,17 @@
-package up.roque.drivingappointment.users.student
+package up.roque.drivingappointment.user.student
 
 import org.hibernate.Hibernate
-import up.roque.drivingappointment.users.BaseUser
+import up.roque.drivingappointment.appointment.Appointment
+import up.roque.drivingappointment.user.BaseUser
 import javax.persistence.Entity
+import javax.persistence.OneToMany
 
 @Entity
 open class Student : BaseUser() {
   open var attempts: Int? = 0
+
+  @OneToMany(mappedBy = "student")
+  open var appointments: MutableSet<Appointment> = mutableSetOf()
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true

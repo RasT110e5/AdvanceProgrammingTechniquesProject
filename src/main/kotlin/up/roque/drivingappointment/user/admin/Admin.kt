@@ -1,6 +1,6 @@
-package up.roque.drivingappointment.users.admin
+package up.roque.drivingappointment.user.admin
 
-import up.roque.drivingappointment.users.BaseUser
+import up.roque.drivingappointment.user.BaseUser
 import javax.persistence.Entity
 
 @Entity

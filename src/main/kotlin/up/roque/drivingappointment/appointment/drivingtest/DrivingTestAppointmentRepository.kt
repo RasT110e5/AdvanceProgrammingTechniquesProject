@@ -1,0 +1,7 @@
+package up.roque.drivingappointment.appointment.drivingtest
+
+import org.springframework.stereotype.Repository
+import up.roque.drivingappointment.appointment.AppointmentRepository
+
+@Repository
+interface DrivingTestAppointmentRepository : AppointmentRepository<DrivingTestAppointment>

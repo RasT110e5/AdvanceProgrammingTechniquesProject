@@ -1,20 +1,17 @@
 package up.roque.drivingappointment.security
 
 import org.slf4j.LoggerFactory
-import org.springframework.security.core.authority.SimpleGrantedAuthority
-import org.springframework.security.core.userdetails.User
-import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import up.roque.drivingappointment.users.BaseUser
-import up.roque.drivingappointment.users.admin.Admin
-import up.roque.drivingappointment.users.admin.AdminRepository
-import up.roque.drivingappointment.users.student.Student
-import up.roque.drivingappointment.users.student.StudentRepository
+import up.roque.drivingappointment.user.BaseUser
+import up.roque.drivingappointment.user.admin.Admin
+import up.roque.drivingappointment.user.admin.AdminRepository
+import up.roque.drivingappointment.user.student.Student
+import up.roque.drivingappointment.user.student.StudentRepository
 import java.util.*
+import java.util.function.Supplier
 import kotlin.collections.ArrayList
 
 const val STUDENT = "STUDENT"
@@ -55,6 +52,11 @@ class SecurityService(
   fun findStudent(username: String): Optional<Student> {
     log.info("Finding student with username: $username")
     return studentRepository.findById(username)
+  }
+
+  fun getStudent(username: String): Student {
+    log.info("Fetching student with username: $username")
+    return findStudent(username).orElseThrow { UsernameNotFoundException("For username: $username") }
   }
 
   fun findAdmin(username: String): Optional<Admin> {
