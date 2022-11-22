@@ -2,6 +2,7 @@ package up.roque.drivingappointment.appointment.drivingtest
 
 import org.hibernate.Hibernate
 import up.roque.drivingappointment.appointment.Appointment
+import up.roque.drivingappointment.appointment.dto.ReservedDrivingTestAppointment
 import up.roque.drivingappointment.user.student.Student
 import java.util.*
 import javax.persistence.Entity
@@ -19,18 +20,11 @@ open class DrivingTestAppointment : Appointment() {
 
   override fun hashCode(): Int = javaClass.hashCode()
 
-  fun reserve(student: Student) {
-    super.student = student
-    super.available = false
-  }
-
-  fun free(student: Student) {
-    super.student = student
-    super.available = false
-  }
-
   @Override
-  override fun toString(): String {
-    return this::class.simpleName + "(secretKey = $secretKey, appointment= ${super.toString()} )"
+  override fun toString(): String =
+    this::class.simpleName + "(secretKey = $secretKey, appointment= ${super.toString()} )"
+
+  fun toReservedDto(): ReservedDrivingTestAppointment {
+    return ReservedDrivingTestAppointment(this.id, this.secretKey, this.time, this.available)
   }
 }

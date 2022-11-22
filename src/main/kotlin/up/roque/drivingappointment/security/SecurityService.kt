@@ -45,8 +45,8 @@ class SecurityService(
     return users
   }
 
-  fun getAllStudents(): List<Student>? {
-    return studentRepository.findAll();
+  fun getAllStudents(): List<Student> {
+    return studentRepository.findAll()
   }
 
   fun findStudent(username: String): Optional<Student> {

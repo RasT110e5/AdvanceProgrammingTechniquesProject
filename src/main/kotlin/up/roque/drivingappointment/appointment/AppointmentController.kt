@@ -1,14 +1,11 @@
 package up.roque.drivingappointment.appointment
 
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import up.roque.drivingappointment.appointment.dto.AvailableAppointment
 import up.roque.drivingappointment.appointment.dto.ReservedDrivingTestAppointment
 import up.roque.drivingappointment.security.StudentAuthorized
+import up.roque.drivingappointment.web.BaseRestResponse
 import java.security.Principal
 
 @RestController
@@ -17,16 +14,25 @@ import java.security.Principal
 class AppointmentController(private val appointmentService: AppointmentService) {
 
   @GetMapping
-  fun getAllAvailableAppointments(): ResponseEntity<List<AvailableAppointment>> {
-    return ResponseEntity.ok(appointmentService.findAllAvailableAppointments())
+  fun getAllAvailableAppointments(): ResponseEntity<BaseRestResponse<List<AvailableAppointment>>> {
+    return BaseRestResponse.ok(appointmentService.findAllAvailableForReserveAppointments())
   }
 
   @PostMapping("/reserve/{id}")
   fun reserveAppointment(
     @PathVariable(value = "id") id: Int,
     principal: Principal,
-  ): ResponseEntity<ReservedDrivingTestAppointment> {
+  ): ResponseEntity<BaseRestResponse<ReservedDrivingTestAppointment>> {
     val reservedAppointment = appointmentService.reserveAppointment(id, principal.name)
-    return ResponseEntity.ok(ReservedDrivingTestAppointment.fromEntity(reservedAppointment))
+    return BaseRestResponse.ok(reservedAppointment.toReservedDto())
+  }
+
+  @PostMapping("/free/{id}")
+  fun freeAppointment(
+    @PathVariable(value = "id") id: Int,
+    principal: Principal
+  ): ResponseEntity<BaseRestResponse<Nothing?>> {
+    appointmentService.freeAppointment(id, principal.name)
+    return BaseRestResponse.ok("Appointment is now free")
   }
 }

@@ -5,4 +5,4 @@ import org.springframework.stereotype.Repository
 import up.roque.drivingappointment.appointment.AppointmentRepository
 
 @Repository
-interface EyeAppointmentRepository : AppointmentRepository<EyeAppointment>
+interface EyeAppointmentRepository : JpaRepository<EyeAppointment, Int>

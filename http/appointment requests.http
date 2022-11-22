@@ -5,3 +5,7 @@ Authorization: Basic student1 password
 ### Take appointment
 POST localhost:8080/api/appointments/reserve/139
 Authorization: Basic student1 password
+
+### Free appointment
+POST localhost:8080/api/appointments/free/139
+Authorization: Basic student1 password

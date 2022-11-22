@@ -8,13 +8,5 @@ data class ReservedDrivingTestAppointment(
   val id: Int?,
   val secretKey: UUID,
   val time: LocalDateTime?,
-) {
-
-  companion object {
-    fun fromEntity(appointment: DrivingTestAppointment): ReservedDrivingTestAppointment {
-      return ReservedDrivingTestAppointment(
-        appointment.id, appointment.secretKey, appointment.time
-      )
-    }
-  }
-}
+  val available: Boolean
+)

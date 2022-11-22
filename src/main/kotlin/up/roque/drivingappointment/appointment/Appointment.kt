@@ -29,6 +29,10 @@ open class Appointment {
 
   override fun hashCode(): Int = javaClass.hashCode()
 
+  @Override
+  override fun toString(): String =
+    this::class.simpleName + "(id = $id , time = $time , available = $available , studentAbsent = $studentAbsent )"
+
   fun wasStudenAbsent(): Boolean = studentAbsent
 
   fun isAvailable(): Boolean = available
@@ -39,10 +43,16 @@ open class Appointment {
     return now.isAfter(startTime) && now.isBefore(startTime.plusHours(1))
   }
 
+  fun reserve(student: Student) {
+    this.student = student
+    this.available = false
+  }
+
+  fun free() {
+    this.student = null
+    this.available = true
+  }
+
   class TimeNotSetForAppointment : RuntimeException()
 
-  @Override
-  override fun toString(): String {
-    return this::class.simpleName + "(id = $id , time = $time , available = $available , studentAbsent = $studentAbsent )"
-  }
 }

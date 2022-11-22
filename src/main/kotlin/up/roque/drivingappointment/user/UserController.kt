@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RestController
 import up.roque.drivingappointment.security.AdminAuthorized
 import up.roque.drivingappointment.security.SecurityService
 import up.roque.drivingappointment.user.student.Student
+import up.roque.drivingappointment.web.BaseRestResponse
 
 @RestController
 @RequestMapping("/api/users")
@@ -14,13 +15,12 @@ import up.roque.drivingappointment.user.student.Student
 class UserController(private val securityService: SecurityService) {
 
   @GetMapping
-  fun getAllUsers(): ResponseEntity<List<BaseUser>> {
-    return ResponseEntity.ok(securityService.getAllUsers())
+  fun getAllUsers(): ResponseEntity<BaseRestResponse<List<BaseUser>>> {
+    return BaseRestResponse.ok(securityService.getAllUsers())
   }
 
-  @GetMapping
-  @RequestMapping("/students")
-  fun getAllStudents(): ResponseEntity<List<Student>> {
-    return ResponseEntity.ok(securityService.getAllStudents())
+  @GetMapping("/students")
+  fun getAllStudents(): ResponseEntity<BaseRestResponse<List<Student>>> {
+    return BaseRestResponse.ok(securityService.getAllStudents())
   }
 }

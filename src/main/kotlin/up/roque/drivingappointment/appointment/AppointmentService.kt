@@ -17,6 +17,7 @@ import kotlin.random.Random.Default.nextInt
 @Service
 @Transactional(readOnly = true)
 class AppointmentService(
+  private val appointmentRepository: AppointmentRepository,
   private val drivingTestAppointmentRepository: DrivingTestAppointmentRepository,
   private val eyeAppointmentRepository: EyeAppointmentRepository,
   private val securityService: SecurityService,
@@ -44,8 +45,8 @@ class AppointmentService(
     return arrayOf("Carl", "Claudia", "Jorge", "Anna")[nextInt(0, 4)]
   }
 
-  fun findAllAvailableAppointments(): List<AvailableAppointment> {
-    return drivingTestAppointmentRepository.findAllAvailable()
+  fun findAllAvailableForReserveAppointments(): List<AvailableAppointment> {
+    return drivingTestAppointmentRepository.findAllAvailableAfter(LocalDateTime.now())
   }
 
   @Transactional
@@ -53,10 +54,24 @@ class AppointmentService(
   fun reserveAppointment(id: Int, username: String): DrivingTestAppointment {
     val student = securityService.getStudent(username)
     val appointment = drivingTestAppointmentRepository.findById(id).orElseThrow { NoAppointmentFoundForId() }
+    if (!appointment.isAvailable()) throw AppointmentAlreadyReserved()
     appointment.reserve(student)
-    drivingTestAppointmentRepository.save(appointment)
-    return appointment
+    return drivingTestAppointmentRepository.save(appointment)
   }
 
+  @Transactional
+  @StudentAuthorized
+  fun freeAppointment(id: Int, username: String) {
+    val student = securityService.getStudent(username)
+    val reservedAppointment = drivingTestAppointmentRepository.findReservedAppointmentFor(student)
+      .orElseThrow { NoReservedAppointmentForId(id, username) }
+    reservedAppointment.free()
+    drivingTestAppointmentRepository.save(reservedAppointment)
+  }
+
+  class NoReservedAppointmentForId(id: Int, username: String) :
+    RuntimeException("No appointment is reserved with id:$id and student:$username")
+
+  class AppointmentAlreadyReserved : RuntimeException()
   class NoAppointmentFoundForId : RuntimeException()
 }
