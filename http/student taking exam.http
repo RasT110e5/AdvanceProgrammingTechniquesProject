@@ -3,7 +3,7 @@
 GET {{url}}/api/appointments
 Authorization: Basic student1 password
 
-### Reserve Appointment
+### Reserve Appointment (select the one active now)
 POST {{url}}/api/appointments/reserve/3
 Authorization: Basic student1 password
 
@@ -30,7 +30,7 @@ Authorization: Basic student1 password
 
 # Answer the started exam and consult previously answered exams
 ### Get question
-GET {{url}}/api/questions/9
+GET {{url}}/api/questions/2
 Authorization: Basic student1 password
 
 ### Answer question 3 incorrectly
@@ -47,6 +47,10 @@ Authorization: Basic student1 password
 
 ### Answer question 2 correctly
 POST {{url}}/api/exams?key={{reserved-key}}&option=4
+Authorization: Basic student1 password
+
+### Answer question 2 incorrectly
+POST {{url}}/api/exams?key={{reserved-key}}&option=6
 Authorization: Basic student1 password
 
 ### Answer question 4 correctly
