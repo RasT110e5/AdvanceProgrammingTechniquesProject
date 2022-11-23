@@ -24,7 +24,7 @@ class AppointmentDataInitialization(
 
   private fun createAvailableAppointmentsForDay(day: LocalDate) {
     val openingTime = day.atTime(8, 0)
-    for (appointmentNumber in 0L..9L) {
+    for (appointmentNumber in 0L..15L) {
       appointmentService.newDrivingTestAppointment(openingTime.plusHours(appointmentNumber))
       appointmentService.newEyeAppointment(openingTime.plusHours(appointmentNumber))
     }

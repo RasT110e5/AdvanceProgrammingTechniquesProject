@@ -83,11 +83,14 @@ class AppointmentService(
     return drivingTestAppointmentRepository.findBySecretKey(key).orElseThrow { NoAppointmentFoundForKey(key) }
   }
 
-  fun getValidAppointmentBySecret(key: UUID): DrivingTestAppointment {
+  fun getValidAppointmentBySecretAndUsername(key: UUID, username: String): DrivingTestAppointment {
     val appointment = getAppointmentBySecret(key)
     if (!appointment.isValidNow()) throw AppointmentIsNotValidForExamNow(appointment)
+    if (!appointment.isAssignedTo(securityService.getStudent(username)))
+      throw AppointmentNotReservedByUser(key, username)
     return appointment
   }
+
 
   @Transactional
   @StudentAuthorized
@@ -109,6 +112,9 @@ class AppointmentService(
 
   class AppointmentIsNotValidForExamNow(appointment: DrivingTestAppointment) :
     RuntimeException("Appointment '$appointment' is not valid for exam now, only 1 hour from start time.")
+
+  class AppointmentNotReservedByUser(key: UUID, username: String) :
+    RuntimeException("Appointment with key:$key is not reserved by $username")
 
   class AppointmentAlreadyReserved : RuntimeException("Appointment is already reserved")
   class NoAppointmentFoundForId(id: Int) : RuntimeException("No appointment found for id:$id")

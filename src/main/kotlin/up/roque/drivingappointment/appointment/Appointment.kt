@@ -53,6 +53,10 @@ open class Appointment {
     this.available = true
   }
 
+  fun isAssignedTo(student: Student): Boolean {
+    return this.student?.equals(student) ?: false
+  }
+
   class TimeNotSetForAppointment : RuntimeException()
 
 }

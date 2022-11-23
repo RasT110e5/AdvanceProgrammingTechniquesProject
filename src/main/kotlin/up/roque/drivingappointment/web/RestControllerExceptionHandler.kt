@@ -3,11 +3,12 @@ package up.roque.drivingappointment.web
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.security.core.userdetails.UsernameNotFoundException
+import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import up.roque.drivingappointment.appointment.AppointmentService
 import up.roque.drivingappointment.exam.ExamService
-import up.roque.drivingappointment.user.admin.AdminService
+import up.roque.drivingappointment.user.admin.QuestionService
 
 @RestControllerAdvice
 class RestControllerExceptionHandler {
@@ -18,6 +19,13 @@ class RestControllerExceptionHandler {
           : ResponseEntity<BaseRestResponse<Nothing?>> {
     log.error("Unidentified exception thrown", ex)
     return BaseRestResponse.internalError("Unknown error occurred during the request, contact support.")
+  }
+
+  @ExceptionHandler
+  fun handleParameterIsMissingException(ex: MissingServletRequestParameterException)
+          : ResponseEntity<BaseRestResponse<Nothing?>> {
+    log.error("Unidentified exception thrown", ex)
+    return BaseRestResponse.badRequest(ex.message)
   }
 
   @ExceptionHandler
@@ -49,14 +57,14 @@ class RestControllerExceptionHandler {
   }
 
   @ExceptionHandler
-  fun handleNoQuestionFound(ex: AdminService.NoQuestionForId)
+  fun handleNoQuestionFound(ex: QuestionService.NoQuestionForId)
           : ResponseEntity<BaseRestResponse<Nothing?>> {
     log.warn("Question not found exception thrown")
     return BaseRestResponse.badRequest(ex.message!!)
   }
 
   @ExceptionHandler
-  fun handleNoOptionFound(ex: AdminService.NoOptionForId)
+  fun handleNoOptionFound(ex: QuestionService.NoOptionForId)
           : ResponseEntity<BaseRestResponse<Nothing?>> {
     log.warn("Option not found exception thrown")
     return BaseRestResponse.badRequest(ex.message!!)
@@ -80,6 +88,13 @@ class RestControllerExceptionHandler {
   fun handleAppointmentIsNotValid(ex: AppointmentService.NoEyeAppointmentIsAvailable)
           : ResponseEntity<BaseRestResponse<Nothing?>> {
     log.warn("No eye appointment is available to start exam with glasses exception thrown")
+    return BaseRestResponse.badRequest(ex.message!!)
+  }
+
+  @ExceptionHandler
+  fun handleNoValidExamAttemptForUsername(ex: ExamService.NoValidExamAttemptForUsername)
+          : ResponseEntity<BaseRestResponse<Nothing?>> {
+    log.warn("No valid exam attempt for username exception thrown")
     return BaseRestResponse.badRequest(ex.message!!)
   }
 }

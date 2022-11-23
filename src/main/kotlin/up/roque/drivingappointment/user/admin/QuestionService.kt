@@ -14,7 +14,7 @@ import java.lang.RuntimeException
 
 @Service
 @Transactional(readOnly = true)
-class AdminService(
+class QuestionService(
   private val questionRepository: QuestionRepository,
   private val optionRepository: OptionRepository
 ) {

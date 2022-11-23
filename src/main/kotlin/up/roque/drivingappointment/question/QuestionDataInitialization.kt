@@ -4,11 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.io.ClassPathResource
-import up.roque.drivingappointment.user.admin.AdminService
+import up.roque.drivingappointment.user.admin.QuestionService
 
 @Configuration
 class QuestionDataInitialization(
-  private val adminService: AdminService,
+  private val questionService: QuestionService,
   private val mapper: ObjectMapper
 ) : InitializingBean {
 
@@ -17,7 +17,7 @@ class QuestionDataInitialization(
     val questions: MutableList<QuestionDto> =
       mapper.readValue(ClassPathResource("questions-options.json").file, collType)
     for (question in questions)
-      adminService.createQuestion(question)
+      questionService.createQuestion(question)
   }
 
 }

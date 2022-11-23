@@ -10,7 +10,6 @@ import up.roque.drivingappointment.question.Question
 data class ExamStartedDto(
   val examAttempt: ExamAttempt,
   @JsonIgnore val questions: List<Question>,
-  val eyeAppointment: EyeAppointmentDto?
 ) {
   @JsonProperty("questions")
   fun questions(): List<Question> {

@@ -1,7 +1,9 @@
 package up.roque.drivingappointment.exam
 
 import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation.JsonProperty
 import up.roque.drivingappointment.appointment.drivingtest.DrivingTestAppointment
+import up.roque.drivingappointment.question.Question
 import up.roque.drivingappointment.question.option.Option
 import up.roque.drivingappointment.user.student.Student
 import javax.persistence.*
@@ -31,10 +33,28 @@ open class ExamAttempt {
   }
 
   fun addSelectedOption(option: Option) {
-    this.options.add(option)
+    val questions = getRespondedQuestions()
+    if (!questions.contains(option.question))
+      this.options.add(option)
   }
 
+  @JsonIgnore
+  fun getRespondedQuestions(): Set<Question?> {
+    return options.map { it.question }.toSet()
+  }
+
+  @JsonProperty("student")
   fun getStudent(): Student? {
     return this.appointment?.student
+  }
+
+  fun toDto(): ExamAttemptDto {
+    return ExamAttemptDto(
+      this.id,
+      this.options.map { it.toDto() }.toSet(),
+      this.getRespondedQuestions(),
+      isApproved(),
+      this.appointment?.isValidNow() ?: false
+    )
   }
 }
