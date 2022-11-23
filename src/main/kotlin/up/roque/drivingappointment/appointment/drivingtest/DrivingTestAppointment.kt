@@ -2,7 +2,7 @@ package up.roque.drivingappointment.appointment.drivingtest
 
 import org.hibernate.Hibernate
 import up.roque.drivingappointment.appointment.Appointment
-import up.roque.drivingappointment.appointment.dto.ReservedTestAppointment
+import up.roque.drivingappointment.appointment.drivingtest.dto.ReservedTestAppointment
 import java.util.*
 import javax.persistence.Column
 import javax.persistence.Entity

@@ -3,10 +3,11 @@ package up.roque.drivingappointment.question.option
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.Hibernate
 import up.roque.drivingappointment.question.Question
-import java.util.IdentityHashMap
+import up.roque.drivingappointment.question.option.dto.OptionDto
 import javax.persistence.*
 
 @Entity
+@Table(name = "multiple_choice_option")
 open class Option {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

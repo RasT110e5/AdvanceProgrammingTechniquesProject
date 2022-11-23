@@ -3,9 +3,11 @@ package up.roque.drivingappointment.user
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import up.roque.drivingappointment.web.security.SecurityService
 
 @Configuration
+@Profile("dev")
 class UserDataInitialization(private val securityService: SecurityService) : InitializingBean {
   private val log = LoggerFactory.getLogger(this.javaClass)
 

@@ -1,4 +1,4 @@
-package up.roque.drivingappointment.question
+package up.roque.drivingappointment.question.dto
 
 import com.fasterxml.jackson.annotation.JsonCreator
 import com.fasterxml.jackson.annotation.JsonProperty

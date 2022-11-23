@@ -1,4 +1,4 @@
-package up.roque.drivingappointment.appointment.eye
+package up.roque.drivingappointment.appointment.eye.dto
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.annotation.JsonInclude

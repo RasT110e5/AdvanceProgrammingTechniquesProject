@@ -1,14 +1,12 @@
-package up.roque.drivingappointment.user.admin
+package up.roque.drivingappointment.question
 
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import up.roque.drivingappointment.question.ModifyQuestionDto
-import up.roque.drivingappointment.question.Question
-import up.roque.drivingappointment.question.QuestionDto
-import up.roque.drivingappointment.question.QuestionRepository
-import up.roque.drivingappointment.question.option.ModifyOptionDto
+import up.roque.drivingappointment.question.dto.ModifyQuestionDto
+import up.roque.drivingappointment.question.dto.QuestionDto
+import up.roque.drivingappointment.question.option.dto.ModifyOptionDto
 import up.roque.drivingappointment.question.option.Option
-import up.roque.drivingappointment.question.option.OptionDto
+import up.roque.drivingappointment.question.option.dto.OptionDto
 import up.roque.drivingappointment.question.option.OptionRepository
 import java.lang.RuntimeException
 

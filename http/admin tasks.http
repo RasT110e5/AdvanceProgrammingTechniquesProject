@@ -1,3 +1,69 @@
+# Manually trigger maintenance tasks
+### Trigger clean old exams task
+POST {{url}}/api/admin/exams
+Authorization: Basic {{user}} {{password}}
+
+### Trigger create new appointments task
+POST {{url}}/api/admin/appointments
+Authorization: Basic {{user}} {{password}}
+
+# View Exams
 ### Get Statistics for a day
 GET {{url}}/api/exams/results?date=2022-11-23
-Authorization: Basic admin1 admin
+Authorization: Basic {{user}} {{password}}
+
+### Get all exams
+GET {{url}}/api/exams/results/all
+Authorization: Basic {{user}} {{password}}
+
+#View users
+### Get all Students
+GET {{url}}/api/users/students
+Authorization: Basic {{user}} {{password}}
+
+### Get all Users
+GET {{url}}/api/users
+Authorization: Basic {{user}} {{password}}
+
+### Get all Students as a Student should fail
+GET {{url}}/api/users/students
+Authorization: Basic student1 password
+
+# View and modify questions and options
+### Get all questions with options
+GET {{url}}/api/questions
+Authorization: Basic {{user}} {{password}}
+
+### Get question
+GET {{url}}/api/questions/2
+Authorization: Basic {{user}} {{password}}
+
+### Modify question
+POST {{url}}/api/questions
+Authorization: Basic {{user}} {{password}}
+Content-Type: application/json
+
+{
+  "id": 1,
+  "newText": "Modified text question?"
+}
+
+### Get all options
+GET {{url}}/api/questions/options
+Authorization: Basic {{user}} {{password}}
+
+### Get option
+GET {{url}}/api/questions/options/1
+Authorization: Basic {{user}} {{password}}
+
+### Modify option
+POST {{url}}/api/questions/options
+Authorization: Basic {{user}} {{password}}
+Content-Type: application/json
+
+{
+  "id": 1,
+  "newText": "Modified text option",
+  "correct": false,
+  "questionId": 2
+}

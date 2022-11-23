@@ -2,7 +2,8 @@ package up.roque.drivingappointment.appointment.eye
 
 import org.hibernate.Hibernate
 import up.roque.drivingappointment.appointment.Appointment
-import up.roque.drivingappointment.appointment.dto.ReservedTestAppointment
+import up.roque.drivingappointment.appointment.drivingtest.dto.ReservedTestAppointment
+import up.roque.drivingappointment.appointment.eye.dto.EyeAppointmentDto
 import javax.persistence.Entity
 
 @Entity

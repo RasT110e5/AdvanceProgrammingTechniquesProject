@@ -11,7 +11,7 @@ class ExamAttemptCleanerTask(
 ) {
   private val log = LoggerFactory.getLogger(this.javaClass)
 
-  @Scheduled
+  @Scheduled(cron = "0 1 0 * * MON")
   fun cleanExamsOlderThanAWeek() {
     log.info("Starting cleaner task")
     val exams = examService.findExamsOlderThan(7)

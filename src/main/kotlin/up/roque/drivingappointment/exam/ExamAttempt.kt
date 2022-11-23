@@ -20,7 +20,7 @@ open class ExamAttempt {
   @JsonIgnore
   @ManyToMany
   @JoinTable(
-    name = "exam_selected_options",
+    name = "exam_selected_option",
     joinColumns = [JoinColumn(name = "exam_attempt_id")],
     inverseJoinColumns = [JoinColumn(name = "options_id")]
   )
@@ -34,6 +34,11 @@ open class ExamAttempt {
   @JsonProperty("approved")
   fun isApproved(): Boolean {
     return options.stream().filter { it.correct ?: false }.count() >= 8
+  }
+
+  @JsonProperty("complete")
+  fun isExamComplete(): Boolean {
+    return this.getRespondedQuestions().size == 10
   }
 
   fun addSelectedOption(option: Option) {
@@ -65,9 +70,7 @@ open class ExamAttempt {
   }
 
   fun toDto(): ExamAttemptDto {
-    return ExamAttemptDto(
-      this.id, this.isApproved(), this.options
-    )
+    return ExamAttemptDto(this.id, this.isApproved(), this.isExamComplete(), this.options)
   }
 
   override fun equals(other: Any?): Boolean {

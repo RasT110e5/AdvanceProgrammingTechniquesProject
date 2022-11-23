@@ -3,10 +3,12 @@ package up.roque.drivingappointment.question
 import com.fasterxml.jackson.databind.ObjectMapper
 import org.springframework.beans.factory.InitializingBean
 import org.springframework.context.annotation.Configuration
+import org.springframework.context.annotation.Profile
 import org.springframework.core.io.ClassPathResource
-import up.roque.drivingappointment.user.admin.QuestionService
+import up.roque.drivingappointment.question.dto.QuestionDto
 
 @Configuration
+@Profile("dev")
 class QuestionDataInitialization(
   private val questionService: QuestionService,
   private val mapper: ObjectMapper

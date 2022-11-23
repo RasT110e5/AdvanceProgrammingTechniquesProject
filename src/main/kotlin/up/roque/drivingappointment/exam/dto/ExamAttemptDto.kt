@@ -4,12 +4,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
 import up.roque.drivingappointment.question.option.Option
-import up.roque.drivingappointment.question.option.OptionDto
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 data class ExamAttemptDto(
   val id: Int?,
   val approved: Boolean,
+  val complete: Boolean,
   @JsonIgnore
   val options: Set<Option>
 ) {

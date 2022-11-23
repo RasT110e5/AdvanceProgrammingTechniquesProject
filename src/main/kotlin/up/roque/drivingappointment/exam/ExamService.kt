@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import up.roque.drivingappointment.appointment.AppointmentService
 import up.roque.drivingappointment.appointment.drivingtest.DrivingTestAppointment
-import up.roque.drivingappointment.user.admin.QuestionService
+import up.roque.drivingappointment.question.QuestionService
 import up.roque.drivingappointment.web.security.StudentAuthorized
 import java.lang.RuntimeException
 import java.time.LocalDateTime
@@ -83,6 +83,10 @@ class ExamService(
 
   private fun examIsCompletedAndFailed(examAttempt: ExamAttempt) =
     examAttempt.getRespondedQuestions().size == 10 && !examAttempt.isApproved()
+
+  fun findAll(): List<ExamAttempt> {
+    return examAttemptRepository.findAll()
+  }
 
   class NoValidExamAttemptForUsername(key: UUID, username: String) :
     RuntimeException("There is no valid exam attempt with key:$key, and assigned to student:$username")

@@ -1,4 +1,4 @@
-package up.roque.drivingappointment.appointment.dto
+package up.roque.drivingappointment.appointment.drivingtest.dto
 
 import java.time.LocalDateTime
 

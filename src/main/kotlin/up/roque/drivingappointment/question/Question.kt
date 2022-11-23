@@ -2,6 +2,7 @@ package up.roque.drivingappointment.question
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.hibernate.Hibernate
+import up.roque.drivingappointment.question.dto.QuestionDto
 import up.roque.drivingappointment.question.option.Option
 import java.util.stream.Collectors
 import javax.persistence.*

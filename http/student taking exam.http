@@ -1,11 +1,11 @@
 # View and reserve appointments
-### View all free and future driving appointments
+### View all free and reservable driving appointments
 GET {{url}}/api/appointments
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 ### Reserve Appointment (select the one active now)
-POST {{url}}/api/appointments/reserve/23
-Authorization: Basic student1 password
+POST {{url}}/api/appointments/reserve/35
+Authorization: Basic {{user}} {{password}}
 
 > {%
 client.global.set("reserved-key", JSON.stringify(response.body.content.secretKey).slice(1,-1))
@@ -13,70 +13,74 @@ client.global.set("reserved-key", JSON.stringify(response.body.content.secretKey
 
 ### View my reservations
 GET {{url}}/api/appointments/reserved
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
+
+### Cancel a reservation
+POST {{url}}/api/appointments/free/35
+Authorization: Basic {{user}} {{password}}
 
 #Start the exam when the appointment is valid
 ### Start exam or get started exam attempt
 GET {{url}}/api/exams/start?key={{reserved-key}}
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 ### Start exam with glasses or get started exam attempt
 GET {{url}}/api/exams/start?key={{reserved-key}}&glasses=true
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 ### Start exam with invalid code
 GET {{url}}/api/exams/start?key=bbc0dcd5-4a58-42d6-9f0a-e57c6b8bf757&glasses=true
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 # Answer the started exam and consult previously answered exams
 ### Get question
 GET {{url}}/api/questions/2
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 ### Answer question 3 incorrectly
 POST {{url}}/api/exams?key={{reserved-key}}&option=8
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 ### Answer question 6 incorrectly
 POST {{url}}/api/exams?key={{reserved-key}}&option=16
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 ### Answer question 1 correctly
 POST {{url}}/api/exams?key={{reserved-key}}&option=3
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 ### Answer question 2 correctly
 POST {{url}}/api/exams?key={{reserved-key}}&option=4
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 ### Answer question 2 incorrectly
 POST {{url}}/api/exams?key={{reserved-key}}&option=6
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 ### Answer question 4 correctly
 POST {{url}}/api/exams?key={{reserved-key}}&option=12
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 ### Answer question 5 correctly
 POST {{url}}/api/exams?key={{reserved-key}}&option=15
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 ### Answer question 7 correctly
 POST {{url}}/api/exams?key={{reserved-key}}&option=19
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 ### Answer question 8 correctly
 POST {{url}}/api/exams?key={{reserved-key}}&option=23
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 ### Answer question 9 correctly
 POST {{url}}/api/exams?key={{reserved-key}}&option=30
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 ### Answer question 10 correctly
 POST {{url}}/api/exams?key={{reserved-key}}&option=34
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}
 
 ### Get my exams
 GET {{url}}/api/exams
-Authorization: Basic student1 password
+Authorization: Basic {{user}} {{password}}

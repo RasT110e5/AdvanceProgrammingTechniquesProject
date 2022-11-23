@@ -38,5 +38,10 @@ data class BaseRestResponse<T>(
       val internalServerResponse = BaseRestResponse(HttpStatus.INTERNAL_SERVER_ERROR, message, content = null)
       return ResponseEntity.internalServerError().body(internalServerResponse)
     }
+
+    fun forbidden(message: String): ResponseEntity<BaseRestResponse<Nothing?>> {
+      val forbidden = BaseRestResponse(HttpStatus.FORBIDDEN, message, content = null)
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).body(forbidden)
+    }
   }
 }

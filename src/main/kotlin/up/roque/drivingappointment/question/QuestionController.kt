@@ -2,12 +2,14 @@ package up.roque.drivingappointment.question
 
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import up.roque.drivingappointment.question.option.ModifyOptionDto
-import up.roque.drivingappointment.question.option.OptionDto
-import up.roque.drivingappointment.user.admin.QuestionService
+import up.roque.drivingappointment.question.dto.ModifyQuestionDto
+import up.roque.drivingappointment.question.dto.QuestionDto
+import up.roque.drivingappointment.question.option.dto.ModifyOptionDto
+import up.roque.drivingappointment.question.option.dto.OptionDto
 import up.roque.drivingappointment.web.security.AdminAuthorized
 import up.roque.drivingappointment.web.BaseRestResponse
 import up.roque.drivingappointment.web.security.StudentAuthorized
+import up.roque.drivingappointment.web.security.StudentOrAdminAuthorized
 import java.util.stream.Collectors
 
 @RestController
@@ -22,7 +24,7 @@ class QuestionController(private val questionService: QuestionService) {
   }
 
   @GetMapping("/{id}")
-  @StudentAuthorized
+  @StudentOrAdminAuthorized
   fun getQuestion(@PathVariable id: Int): ResponseEntity<BaseRestResponse<QuestionDto>> {
     val question = questionService.getQuestion(id)
     return BaseRestResponse.ok(question.toDto())

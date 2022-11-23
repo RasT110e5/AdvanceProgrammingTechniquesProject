@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import up.roque.drivingappointment.appointment.drivingtest.DrivingTestAppointment
 import up.roque.drivingappointment.appointment.drivingtest.DrivingTestAppointmentRepository
-import up.roque.drivingappointment.appointment.dto.AvailableAppointment
+import up.roque.drivingappointment.appointment.drivingtest.dto.AvailableAppointment
 import up.roque.drivingappointment.appointment.eye.EyeAppointment
 import up.roque.drivingappointment.appointment.eye.EyeAppointmentRepository
 import up.roque.drivingappointment.web.security.SecurityService
@@ -47,7 +47,7 @@ class AppointmentService(
   }
 
   fun findAllAvailableForReserveAppointments(): List<AvailableAppointment> {
-    return drivingTestAppointmentRepository.findAllAvailableAfterAsDto(LocalDateTime.now())
+    return drivingTestAppointmentRepository.findAllAvailableAfterAsDto(LocalDateTime.now().minusHours(1))
   }
 
   @Transactional
@@ -129,10 +129,8 @@ class AppointmentService(
   @Transactional
   @StudentAuthorized
   fun reserveDrivingTestAppointment(username: String) {
-    val student = securityService.getStudent(username)
     val randomDrivingTestAppointment = getRandomAvailableDrivingTestAppointment()
-    randomDrivingTestAppointment.reserve(student)
-    drivingTestAppointmentRepository.save(randomDrivingTestAppointment)
+    randomDrivingTestAppointment.id?.let { reserveAppointment(it, username) }
   }
 
   private fun getRandomAvailableDrivingTestAppointment(): DrivingTestAppointment {

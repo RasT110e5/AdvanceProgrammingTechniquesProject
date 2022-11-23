@@ -5,7 +5,7 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.core.io.ClassPathResource
-import up.roque.drivingappointment.question.QuestionDto
+import up.roque.drivingappointment.question.dto.QuestionDto
 
 class QuestionSerializerTest {
   private val mapper = ObjectMapper()

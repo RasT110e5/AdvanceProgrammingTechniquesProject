@@ -2,13 +2,14 @@ package up.roque.drivingappointment.web
 
 import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.web.bind.MissingServletRequestParameterException
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.RestControllerAdvice
 import up.roque.drivingappointment.appointment.AppointmentService
 import up.roque.drivingappointment.exam.ExamService
-import up.roque.drivingappointment.user.admin.QuestionService
+import up.roque.drivingappointment.question.QuestionService
 
 @RestControllerAdvice
 class RestControllerExceptionHandler {
@@ -19,6 +20,13 @@ class RestControllerExceptionHandler {
           : ResponseEntity<BaseRestResponse<Nothing?>> {
     log.error("Unidentified exception thrown", ex)
     return BaseRestResponse.internalError("Unknown error occurred during the request, contact support.")
+  }
+
+  @ExceptionHandler
+  fun handleAccessDenied(ex: AccessDeniedException)
+          : ResponseEntity<BaseRestResponse<Nothing?>> {
+    log.error("Access denied exception was thrown", ex)
+    return BaseRestResponse.forbidden("Access denied to resource")
   }
 
   @ExceptionHandler

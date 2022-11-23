@@ -11,7 +11,7 @@ import up.roque.drivingappointment.exam.dto.ExamAttemptDto
 import up.roque.drivingappointment.exam.dto.ExamAttemptInProgressDto
 import up.roque.drivingappointment.exam.dto.ExamStartedDto
 import up.roque.drivingappointment.exam.dto.ExamStatisticsDto
-import up.roque.drivingappointment.user.admin.QuestionService
+import up.roque.drivingappointment.question.QuestionService
 import up.roque.drivingappointment.web.BaseRestResponse
 import up.roque.drivingappointment.web.security.AdminAuthorized
 import up.roque.drivingappointment.web.security.StudentAuthorized
@@ -65,6 +65,13 @@ class ExamController(
   ): ResponseEntity<BaseRestResponse<ExamStatisticsDto>> {
     val examStats = examStatisticsService.calculateStatisticsFor(date)
     return BaseRestResponse.ok(examStats)
+  }
+
+  @GetMapping("/results/all")
+  @AdminAuthorized
+  fun getAllExamAttempts(): ResponseEntity<BaseRestResponse<List<ExamAttempt>>> {
+    val exams = examService.findAll()
+    return BaseRestResponse.ok(exams)
   }
 
 }

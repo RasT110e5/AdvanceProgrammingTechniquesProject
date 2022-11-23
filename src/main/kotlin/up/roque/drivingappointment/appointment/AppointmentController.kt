@@ -3,8 +3,8 @@ package up.roque.drivingappointment.appointment
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import up.roque.drivingappointment.appointment.drivingtest.DrivingTestAppointment
-import up.roque.drivingappointment.appointment.dto.AvailableAppointment
-import up.roque.drivingappointment.appointment.dto.ReservedTestAppointment
+import up.roque.drivingappointment.appointment.drivingtest.dto.AvailableAppointment
+import up.roque.drivingappointment.appointment.drivingtest.dto.ReservedTestAppointment
 import up.roque.drivingappointment.appointment.eye.EyeAppointment
 import up.roque.drivingappointment.web.security.StudentAuthorized
 import up.roque.drivingappointment.web.BaseRestResponse

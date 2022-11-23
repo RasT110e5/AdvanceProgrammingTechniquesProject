@@ -1,0 +1,13 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    database: h2
+    show-sql: false
+  datasource:
+    driver-class-name: org.h2.Driver
+    username: up
+    url: jdbc:h2:mem:up-project
+  h2:
+    console:
+      enabled: true
