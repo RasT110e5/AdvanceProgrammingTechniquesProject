@@ -2,6 +2,7 @@ package up.roque.drivingappointment.exam
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
+import org.hibernate.Hibernate
 import up.roque.drivingappointment.appointment.drivingtest.DrivingTestAppointment
 import up.roque.drivingappointment.exam.dto.ExamAttemptDto
 import up.roque.drivingappointment.exam.dto.ExamAttemptInProgressDto
@@ -59,7 +60,7 @@ open class ExamAttempt {
       this.options.map { it.toDto() }.toSet(),
       this.getRespondedQuestions(),
       this.isApproved(),
-      isValidNow() ?: false
+      isValidNow()
     )
   }
 
@@ -67,6 +68,21 @@ open class ExamAttempt {
     return ExamAttemptDto(
       this.id, this.isApproved(), this.options
     )
+  }
+
+  override fun equals(other: Any?): Boolean {
+    if (this === other) return true
+    if (other == null || Hibernate.getClass(this) != Hibernate.getClass(other)) return false
+    other as ExamAttempt
+
+    return id != null && id == other.id
+  }
+
+  override fun hashCode(): Int = javaClass.hashCode()
+
+  @Override
+  override fun toString(): String {
+    return this::class.simpleName + "(id = $id, approved = ${isApproved()}, selectedOptionsAmount=${options.size})"
   }
 
 }

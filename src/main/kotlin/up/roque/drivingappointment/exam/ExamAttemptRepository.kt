@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
 import up.roque.drivingappointment.appointment.drivingtest.DrivingTestAppointment
+import java.time.LocalDateTime
 import java.util.*
 
 @Repository
@@ -18,4 +19,7 @@ interface ExamAttemptRepository : JpaRepository<ExamAttempt, Int> {
 
   @Query("select e from ExamAttempt e where e.appointment in ?1")
   fun findAllByAppointmentIn(appointments: List<DrivingTestAppointment>): List<ExamAttempt>
+
+  @Query("select e from ExamAttempt e where e.appointment.time < ?1")
+  fun findAllOlderThan(date: LocalDateTime): MutableList<ExamAttempt>
 }

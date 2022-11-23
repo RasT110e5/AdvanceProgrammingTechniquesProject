@@ -7,6 +7,7 @@ import up.roque.drivingappointment.appointment.drivingtest.DrivingTestAppointmen
 import up.roque.drivingappointment.user.admin.QuestionService
 import up.roque.drivingappointment.web.security.StudentAuthorized
 import java.lang.RuntimeException
+import java.time.LocalDateTime
 import java.util.*
 
 @Service
@@ -31,6 +32,40 @@ class ExamService(
     return getExamAttempt(appointment)
   }
 
+  @Transactional
+  fun selectOptionOnExamWithKeyAndStudent(key: UUID, username: String, optionId: Int): ExamAttempt {
+    val examAttempt = getValidExamAttemptFor(key, username)
+    examAttempt.addSelectedOption(questionService.getOption(optionId))
+    if (examIsCompletedAndFailed(examAttempt)) appointmentService.reserveDrivingTestAppointment(username)
+    return examAttemptRepository.save(examAttempt)
+  }
+
+  @Transactional
+  fun deleteAll(exams: MutableList<ExamAttempt>) {
+    examAttemptRepository.deleteAll(exams)
+  }
+
+  fun getValidExamAttemptFor(key: UUID, username: String): ExamAttempt {
+    val validExamAttempt = findExamAttemptBySecretKeyAndUsername(key, username)
+      .orElseThrow { NoValidExamAttemptForUsername(key, username) }
+    if (!validExamAttempt.isValidNow()) throw ExamIsNoLongerValidForModification()
+    return validExamAttempt
+  }
+
+  @StudentAuthorized
+  fun findAllForStudent(username: String): List<ExamAttempt> {
+    return examAttemptRepository.findAllByStudent(username)
+  }
+
+  fun findAllByAppointments(appointments: List<DrivingTestAppointment>): List<ExamAttempt> {
+    return examAttemptRepository.findAllByAppointmentIn(appointments)
+  }
+
+  fun findExamsOlderThan(days: Long): MutableList<ExamAttempt> {
+    return examAttemptRepository.findAllOlderThan(LocalDateTime.now().minusDays(days))
+  }
+
+
   private fun getExamAttempt(appointment: DrivingTestAppointment): ExamAttempt {
     val examAttemptOptional = examAttemptRepository.findByAppointment(appointment)
     return if (examAttemptOptional.isPresent) examAttemptOptional.get()
@@ -43,35 +78,11 @@ class ExamService(
     return examAttemptRepository.save(examAttempt)
   }
 
-  fun getValidExamAttemptFor(key: UUID, username: String): ExamAttempt {
-    val validExamAttempt = findExamAttemptBySecretKeyAndUsername(key, username)
-      .orElseThrow { NoValidExamAttemptForUsername(key, username) }
-    if (!validExamAttempt.isValidNow()) throw ExamIsNoLongerValidForModification()
-    return validExamAttempt
-  }
-
   private fun findExamAttemptBySecretKeyAndUsername(key: UUID, username: String) =
     examAttemptRepository.findByAppointmentKeyAndStudent(key, username)
 
-  @Transactional
-  fun selectOptionOnExamWithKeyAndStudent(key: UUID, username: String, optionId: Int): ExamAttempt {
-    val examAttempt = getValidExamAttemptFor(key, username)
-    examAttempt.addSelectedOption(questionService.getOption(optionId))
-    if (examIsCompletedAndFailed(examAttempt)) appointmentService.reserveDrivingTestAppointment(username)
-    return examAttemptRepository.save(examAttempt)
-  }
-
   private fun examIsCompletedAndFailed(examAttempt: ExamAttempt) =
     examAttempt.getRespondedQuestions().size == 10 && !examAttempt.isApproved()
-
-  @StudentAuthorized
-  fun findAllForStudent(username: String): List<ExamAttempt> {
-    return examAttemptRepository.findAllByStudent(username)
-  }
-
-  fun findAllByAppointments(appointments: List<DrivingTestAppointment>): List<ExamAttempt> {
-    return examAttemptRepository.findAllByAppointmentIn(appointments)
-  }
 
   class NoValidExamAttemptForUsername(key: UUID, username: String) :
     RuntimeException("There is no valid exam attempt with key:$key, and assigned to student:$username")
