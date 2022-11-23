@@ -104,4 +104,11 @@ class RestControllerExceptionHandler {
     log.warn("Already at attempts limit exception thrown")
     return BaseRestResponse.badRequest(ex.message!!)
   }
+
+  @ExceptionHandler
+  fun handleExamIsNoLongerValidForModification(ex: ExamService.ExamIsNoLongerValidForModification)
+          : ResponseEntity<BaseRestResponse<Nothing?>> {
+    log.warn("Exam is no longer valid for modification exception thrown")
+    return BaseRestResponse.badRequest(ex.message!!)
+  }
 }

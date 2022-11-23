@@ -5,7 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import up.roque.drivingappointment.appointment.AppointmentService
 import up.roque.drivingappointment.appointment.drivingtest.DrivingTestAppointment
 import up.roque.drivingappointment.user.admin.QuestionService
-import up.roque.drivingappointment.web.security.SecurityService
+import up.roque.drivingappointment.web.security.StudentAuthorized
 import java.lang.RuntimeException
 import java.util.*
 
@@ -14,13 +14,13 @@ import java.util.*
 class ExamService(
   private val examAttemptRepository: ExamAttemptRepository,
   private val appointmentService: AppointmentService,
-  private val questionService: QuestionService,
-  private val securityService: SecurityService
+  private val questionService: QuestionService
 ) {
 
   @Transactional
   fun startExamWithGlasses(key: UUID, username: String): ExamAttempt {
-    appointmentService.reserveRandomEyeAppointment(username)
+    if (findExamAttemptBySecretKeyAndUsername(key, username).isEmpty)
+      appointmentService.reserveRandomEyeAppointment(username)
     return startExam(key, username)
   }
 
@@ -44,9 +44,15 @@ class ExamService(
   }
 
   fun getValidExamAttemptFor(key: UUID, username: String): ExamAttempt {
-    return examAttemptRepository.findByAppointmentKeyAndStudent(key, username)
+    val validExamAttempt = findExamAttemptBySecretKeyAndUsername(key, username)
       .orElseThrow { NoValidExamAttemptForUsername(key, username) }
+    if (!validExamAttempt.isValidNow()) throw ExamIsNoLongerValidForModification()
+    return validExamAttempt
   }
+
+
+  private fun findExamAttemptBySecretKeyAndUsername(key: UUID, username: String) =
+    examAttemptRepository.findByAppointmentKeyAndStudent(key, username)
 
   @Transactional
   fun selectOptionOnExamWithKeyAndStudent(key: UUID, username: String, optionId: Int): ExamAttempt {
@@ -55,6 +61,14 @@ class ExamService(
     return examAttemptRepository.save(examAttempt)
   }
 
+  @StudentAuthorized
+  fun findAllForStudent(username: String): List<ExamAttempt> {
+    return examAttemptRepository.findAllByStudent(username)
+  }
+
   class NoValidExamAttemptForUsername(key: UUID, username: String) :
     RuntimeException("There is no valid exam attempt with key:$key, and assigned to student:$username")
+
+  class ExamIsNoLongerValidForModification() :
+    RuntimeException("This exam is no longer during the valid timeframe for modification (during the appointment)")
 }

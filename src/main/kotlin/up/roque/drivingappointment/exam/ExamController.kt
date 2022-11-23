@@ -6,6 +6,9 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import up.roque.drivingappointment.exam.dto.ExamAttemptDto
+import up.roque.drivingappointment.exam.dto.ExamAttemptInProgressDto
+import up.roque.drivingappointment.exam.dto.ExamStartedDto
 import up.roque.drivingappointment.user.admin.QuestionService
 import up.roque.drivingappointment.web.BaseRestResponse
 import up.roque.drivingappointment.web.security.StudentAuthorized
@@ -13,11 +16,18 @@ import java.security.Principal
 import java.util.*
 
 @RestController
-@RequestMapping("/exams")
+@RequestMapping("/api/exams")
 class ExamController(
   private val examService: ExamService,
   private val questionService: QuestionService,
 ) {
+
+  @GetMapping
+  fun getAllExamAttemptsFor(principal: Principal)
+          : ResponseEntity<BaseRestResponse<List<ExamAttemptDto>>> {
+    val exams = examService.findAllForStudent(principal.name)
+    return BaseRestResponse.ok(exams.map { it.toDto() }.toList())
+  }
 
   @PostMapping
   @StudentAuthorized
@@ -25,9 +35,9 @@ class ExamController(
     @RequestParam("key") key: UUID,
     @RequestParam("option") optionId: Int,
     principal: Principal
-  ): ResponseEntity<BaseRestResponse<ExamAttemptDto>> {
+  ): ResponseEntity<BaseRestResponse<ExamAttemptInProgressDto>> {
     val examAttempt = examService.selectOptionOnExamWithKeyAndStudent(key, principal.name, optionId)
-    return BaseRestResponse.ok(examAttempt.toDto())
+    return BaseRestResponse.ok(examAttempt.toInProgressDto())
   }
 
   @GetMapping("/start")

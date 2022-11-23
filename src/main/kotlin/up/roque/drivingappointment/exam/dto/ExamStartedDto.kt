@@ -1,9 +1,9 @@
-package up.roque.drivingappointment.exam
+package up.roque.drivingappointment.exam.dto
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.annotation.JsonProperty
-import up.roque.drivingappointment.appointment.eye.EyeAppointmentDto
+import up.roque.drivingappointment.exam.ExamAttempt
 import up.roque.drivingappointment.question.Question
 
 @JsonInclude(JsonInclude.Include.NON_NULL)

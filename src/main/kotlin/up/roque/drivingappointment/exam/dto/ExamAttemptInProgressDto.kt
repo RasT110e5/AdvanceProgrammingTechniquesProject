@@ -1,11 +1,11 @@
-package up.roque.drivingappointment.exam
+package up.roque.drivingappointment.exam.dto
 
 import com.fasterxml.jackson.annotation.JsonInclude
 import up.roque.drivingappointment.question.Question
 import up.roque.drivingappointment.question.option.OptionDto
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-data class ExamAttemptDto(
+data class ExamAttemptInProgressDto(
   val id:Int?,
   val selectedOptions: Set<OptionDto>,
   val answeredQuestions: Set<Question?>,
