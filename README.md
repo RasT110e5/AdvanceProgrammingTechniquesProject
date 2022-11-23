@@ -1,6 +1,19 @@
 # Advance Programming Techniques TP
 
-## Description and objectives
+## Project description and tips
+
+This is a Spring Boot Rest API developed in Kotlin to provide services according to bellow's objectives.
+An initial class and use case diagram can be found in the root of the
+project ([drawio diagram](/Class%20Diagram.drawio)).
+
+- Tips
+    - Even though it only has 1 profile (dev) to load development data in an in memory DB, it can also connect to a
+      mysql db if details are provided in [mysql properties file,](/src/main/resources/application-mysql.yml) and it is
+      run with mysql and dev profiles.
+    - 2 file can be found under [http folder](/http), one for admin use cases and one for student use cases. This is useful to manually test the application, and to demo it.
+    - If at any point you want to reset the data back to an initial step just restart the application.
+
+## Objectives
 
 Create a system for management of driving licenses test appointments, with the following functional requirements:
 
@@ -22,9 +35,10 @@ Create a system for management of driving licenses test appointments, with the f
         3. Amount of failed exams
         4. Appointments with students as no-show
 
-
 ### Assignment in Spanish
+
 #### Primera Entrega
+
 Se requiere realizar un sistema de gestión para la asignación de turno y entrega de registro de conducción.
 
 #### Objetivos

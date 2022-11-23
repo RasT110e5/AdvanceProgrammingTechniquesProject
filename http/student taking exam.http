@@ -33,7 +33,7 @@ GET {{url}}/api/exams/start?key=bbc0dcd5-4a58-42d6-9f0a-e57c6b8bf757&glasses=tru
 Authorization: Basic {{user}} {{password}}
 
 # Answer the started exam and consult previously answered exams
-### Get question
+### Get questions in the order the start exam dto gives them
 GET {{url}}/api/questions/2
 Authorization: Basic {{user}} {{password}}
 
