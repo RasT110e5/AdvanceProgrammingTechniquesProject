@@ -85,9 +85,16 @@ class RestControllerExceptionHandler {
   }
 
   @ExceptionHandler
-  fun handleAppointmentIsNotValid(ex: AppointmentService.NoEyeAppointmentIsAvailable)
+  fun handleEyeAppointmentIsNotValid(ex: AppointmentService.NoEyeAppointmentIsAvailable)
           : ResponseEntity<BaseRestResponse<Nothing?>> {
     log.warn("No eye appointment is available to start exam with glasses exception thrown")
+    return BaseRestResponse.badRequest(ex.message!!)
+  }
+
+  @ExceptionHandler
+  fun handleDrivingTestAppointmentIsNotValid(ex: AppointmentService.NoDrivingTestAppointmentIsAvailable)
+          : ResponseEntity<BaseRestResponse<Nothing?>> {
+    log.warn("No driving appointment is available to rescheduled failed exam exception thrown")
     return BaseRestResponse.badRequest(ex.message!!)
   }
 

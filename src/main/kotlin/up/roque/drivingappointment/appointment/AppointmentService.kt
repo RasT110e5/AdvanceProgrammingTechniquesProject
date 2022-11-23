@@ -46,7 +46,7 @@ class AppointmentService(
   }
 
   fun findAllAvailableForReserveAppointments(): List<AvailableAppointment> {
-    return drivingTestAppointmentRepository.findAllAvailableAfter(LocalDateTime.now())
+    return drivingTestAppointmentRepository.findAllAvailableAfterAsDto(LocalDateTime.now())
   }
 
   @Transactional
@@ -117,6 +117,22 @@ class AppointmentService(
     }
   }
 
+  @Transactional
+  @StudentAuthorized
+  fun reserveDrivingTestAppointment(username: String) {
+    val student = securityService.getStudent(username)
+    val randomDrivingTestAppointment = getRandomAvailableDrivingTestAppointment()
+    randomDrivingTestAppointment.reserve(student)
+    drivingTestAppointmentRepository.save(randomDrivingTestAppointment)
+  }
+
+  private fun getRandomAvailableDrivingTestAppointment(): DrivingTestAppointment {
+    val drivingTestAppointment = drivingTestAppointmentRepository.findAllAvailableAfter(LocalDateTime.now())
+    if (drivingTestAppointment.isEmpty()) throw NoDrivingTestAppointmentIsAvailable()
+    return drivingTestAppointment.random()
+  }
+
+
   class NoReservedAppointmentForId(id: Int, username: String) :
     RuntimeException("No appointment is reserved with id:$id and student:$username")
 
@@ -131,5 +147,5 @@ class AppointmentService(
   class NoAppointmentFoundForId(id: Int) : RuntimeException("No appointment found for id:$id")
   class NoAppointmentFoundForKey(key: UUID) : RuntimeException("No appointment found for key:$key")
   class NoEyeAppointmentIsAvailable : RuntimeException("No eye appointment available")
-
+  class NoDrivingTestAppointmentIsAvailable : RuntimeException("No driving test appointment available to retake exam")
 }

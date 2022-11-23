@@ -50,7 +50,6 @@ class ExamService(
     return validExamAttempt
   }
 
-
   private fun findExamAttemptBySecretKeyAndUsername(key: UUID, username: String) =
     examAttemptRepository.findByAppointmentKeyAndStudent(key, username)
 
@@ -58,8 +57,12 @@ class ExamService(
   fun selectOptionOnExamWithKeyAndStudent(key: UUID, username: String, optionId: Int): ExamAttempt {
     val examAttempt = getValidExamAttemptFor(key, username)
     examAttempt.addSelectedOption(questionService.getOption(optionId))
+    if (examIsCompletedAndFailed(examAttempt)) appointmentService.reserveDrivingTestAppointment(username)
     return examAttemptRepository.save(examAttempt)
   }
+
+  private fun examIsCompletedAndFailed(examAttempt: ExamAttempt) =
+    examAttempt.getRespondedQuestions().size == 10 && !examAttempt.isApproved()
 
   @StudentAuthorized
   fun findAllForStudent(username: String): List<ExamAttempt> {
