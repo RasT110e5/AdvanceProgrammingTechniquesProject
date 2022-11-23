@@ -1,13 +1,13 @@
 ### Get all Students
-GET localhost:8080/api/users/students
+GET {{url}}/api/users/students
 Authorization: Basic admin1 admin
 
 ### Get all Users
-GET localhost:8080/api/users
+GET {{url}}/api/users
 Authorization: Basic admin1 admin
 
 ### Get all Students as a Student
-GET localhost:8080/api/users/students
+GET {{url}}/api/users/students
 Authorization: Basic student1 password
 
 
