@@ -10,8 +10,8 @@ class AppointmentDataInitialization(
 ) :
   InitializingBean {
   override fun afterPropertiesSet() {
-//    val creator = AppointmentCreator(appointmentService, 15, 0)
-//    creator.createAppointmentsForTheNextBusinessDays(3)
+    val creator = AppointmentCreator(appointmentService, 15, 0)
+    creator.createAppointmentsForTheNextBusinessDays(3)
   }
 
 
