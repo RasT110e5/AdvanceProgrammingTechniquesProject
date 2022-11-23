@@ -28,7 +28,6 @@ class ExamService(
   @Transactional
   fun startExam(key: UUID, username: String): ExamAttempt {
     val appointment = appointmentService.getValidAppointmentBySecretAndUsername(key, username)
-    appointmentService.reportStudentAttendance(appointment)
     return getExamAttempt(appointment)
   }
 
@@ -73,6 +72,7 @@ class ExamService(
   }
 
   private fun createNewExamAttempt(appointment: DrivingTestAppointment): ExamAttempt {
+    appointmentService.reportStudentAttendance(appointment)
     val examAttempt = ExamAttempt()
     examAttempt.appointment = appointment
     return examAttemptRepository.save(examAttempt)

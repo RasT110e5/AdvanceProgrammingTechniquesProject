@@ -4,7 +4,7 @@ GET {{url}}/api/appointments
 Authorization: Basic {{user}} {{password}}
 
 ### Reserve Appointment (select the one active now)
-POST {{url}}/api/appointments/reserve/35
+POST {{url}}/api/appointments/reserve/39
 Authorization: Basic {{user}} {{password}}
 
 > {%
@@ -16,7 +16,7 @@ GET {{url}}/api/appointments/reserved
 Authorization: Basic {{user}} {{password}}
 
 ### Cancel a reservation
-POST {{url}}/api/appointments/free/35
+POST {{url}}/api/appointments/free/39
 Authorization: Basic {{user}} {{password}}
 
 #Start the exam when the appointment is valid
