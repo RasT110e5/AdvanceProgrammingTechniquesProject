@@ -11,6 +11,7 @@ import up.roque.drivingappointment.appointment.eye.EyeAppointmentRepository
 import up.roque.drivingappointment.web.security.SecurityService
 import up.roque.drivingappointment.web.security.StudentAuthorized
 import java.lang.RuntimeException
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 import kotlin.random.Random.Default.nextInt
@@ -87,8 +88,10 @@ class AppointmentService(
   fun getValidAppointmentBySecretAndUsername(key: UUID, username: String): DrivingTestAppointment {
     val appointment = getAppointmentBySecret(key)
     if (!appointment.isValidNow()) throw AppointmentIsNotValidForExamNow(appointment)
-    if (!appointment.isAssignedTo(securityService.getStudent(username)))
-      throw AppointmentNotReservedByUser(key, username)
+    if (!appointment.isAssignedTo(securityService.getStudent(username))) throw AppointmentNotReservedByUser(
+      key,
+      username
+    )
     return appointment
   }
 
@@ -97,9 +100,15 @@ class AppointmentService(
   @StudentAuthorized
   fun reserveRandomEyeAppointment(username: String): EyeAppointment {
     val student = securityService.getStudent(username)
-    val randomEyeAppointment = getRandomAvailableEyeAppointment()
-    randomEyeAppointment.reserve(student)
-    return eyeAppointmentRepository.save(randomEyeAppointment)
+    val existentFutureAppointment =
+      eyeAppointmentRepository.findFirstByStudentAndTimeIsAfter(student, LocalDateTime.now())
+    return if (existentFutureAppointment.isPresent)
+      existentFutureAppointment.get()
+    else {
+      val randomEyeAppointment = getRandomAvailableEyeAppointment()
+      randomEyeAppointment.reserve(student)
+      eyeAppointmentRepository.save(randomEyeAppointment)
+    }
   }
 
   private fun getRandomAvailableEyeAppointment(): EyeAppointment {
@@ -130,6 +139,16 @@ class AppointmentService(
     val drivingTestAppointment = drivingTestAppointmentRepository.findAllAvailableAfter(LocalDateTime.now())
     if (drivingTestAppointment.isEmpty()) throw NoDrivingTestAppointmentIsAvailable()
     return drivingTestAppointment.random()
+  }
+
+  fun findAllPastAppointmentsForDate(date: LocalDate): MutableList<DrivingTestAppointment> {
+    val firstTimeOfDate = date.atTime(0, 0)
+    val lastTimeOfDate = date.atTime(23, 59, 59)
+    return drivingTestAppointmentRepository.findAllByTimeBetweenAndBefore(
+      firstTimeOfDate,
+      lastTimeOfDate,
+      LocalDateTime.now()
+    )
   }
 
 

@@ -1,5 +1,6 @@
 package up.roque.drivingappointment.exam
 
+import org.springframework.format.annotation.DateTimeFormat
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -9,10 +10,13 @@ import org.springframework.web.bind.annotation.RestController
 import up.roque.drivingappointment.exam.dto.ExamAttemptDto
 import up.roque.drivingappointment.exam.dto.ExamAttemptInProgressDto
 import up.roque.drivingappointment.exam.dto.ExamStartedDto
+import up.roque.drivingappointment.exam.dto.ExamStatisticsDto
 import up.roque.drivingappointment.user.admin.QuestionService
 import up.roque.drivingappointment.web.BaseRestResponse
+import up.roque.drivingappointment.web.security.AdminAuthorized
 import up.roque.drivingappointment.web.security.StudentAuthorized
 import java.security.Principal
+import java.time.LocalDate
 import java.util.*
 
 @RestController
@@ -20,6 +24,7 @@ import java.util.*
 class ExamController(
   private val examService: ExamService,
   private val questionService: QuestionService,
+  private val examStatisticsService: ExamStatisticsService
 ) {
 
   @GetMapping
@@ -50,6 +55,16 @@ class ExamController(
     val examAttempt = if (glasses) examService.startExamWithGlasses(key, principal.name)
     else examService.startExam(key, principal.name)
     return BaseRestResponse.ok(ExamStartedDto(examAttempt, questionService.findAllQuestions()))
+  }
+
+  @GetMapping("/results")
+  @AdminAuthorized
+  fun getExamStatistics(
+    @RequestParam("date")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) date: LocalDate
+  ): ResponseEntity<BaseRestResponse<ExamStatisticsDto>> {
+    val examStats = examStatisticsService.calculateStatisticsFor(date)
+    return BaseRestResponse.ok(examStats)
   }
 
 }

@@ -23,4 +23,11 @@ interface DrivingTestAppointmentRepository : JpaRepository<DrivingTestAppointmen
   fun findAllReservedAppointmentsFor(student: Student): MutableList<DrivingTestAppointment>
 
   fun findBySecretKey(secretKey: UUID): Optional<DrivingTestAppointment>
+
+  @Query("select d from DrivingTestAppointment d where d.time between ?1 and ?2 and d.time < ?3")
+  fun findAllByTimeBetweenAndBefore(
+    from: LocalDateTime,
+    to: LocalDateTime,
+    before: LocalDateTime
+  ): MutableList<DrivingTestAppointment>
 }

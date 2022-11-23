@@ -33,7 +33,7 @@ open class Appointment {
   override fun toString(): String =
     this::class.simpleName + "(id = $id , time = $time , available = $available , studentAbsent = $studentAbsent )"
 
-  fun isStudentAbsent(): Boolean {
+  fun wasStudentAbsent(): Boolean {
     return if (student == null) false
     else studentAbsent
   }

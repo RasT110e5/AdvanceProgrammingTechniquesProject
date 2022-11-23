@@ -69,6 +69,10 @@ class ExamService(
     return examAttemptRepository.findAllByStudent(username)
   }
 
+  fun findAllByAppointments(appointments: List<DrivingTestAppointment>): List<ExamAttempt> {
+    return examAttemptRepository.findAllByAppointmentIn(appointments)
+  }
+
   class NoValidExamAttemptForUsername(key: UUID, username: String) :
     RuntimeException("There is no valid exam attempt with key:$key, and assigned to student:$username")
 

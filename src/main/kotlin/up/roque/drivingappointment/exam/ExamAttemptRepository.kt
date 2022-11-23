@@ -15,4 +15,7 @@ interface ExamAttemptRepository : JpaRepository<ExamAttempt, Int> {
 
   @Query("select e from ExamAttempt e where e.appointment.student.username = ?1")
   fun findAllByStudent(username: String): List<ExamAttempt>
+
+  @Query("select e from ExamAttempt e where e.appointment in ?1")
+  fun findAllByAppointmentIn(appointments: List<DrivingTestAppointment>): List<ExamAttempt>
 }

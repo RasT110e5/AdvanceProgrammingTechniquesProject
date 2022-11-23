@@ -1,0 +1,3 @@
+### Get Statistics for a day
+GET {{url}}/api/exams/results?date=2022-11-23
+Authorization: Basic admin1 admin

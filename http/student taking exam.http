@@ -4,7 +4,7 @@ GET {{url}}/api/appointments
 Authorization: Basic student1 password
 
 ### Reserve Appointment (select the one active now)
-POST {{url}}/api/appointments/reserve/3
+POST {{url}}/api/appointments/reserve/23
 Authorization: Basic student1 password
 
 > {%
