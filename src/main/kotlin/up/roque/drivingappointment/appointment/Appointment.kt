@@ -13,7 +13,7 @@ open class Appointment {
   open var id: Int? = null
   open var time: LocalDateTime? = null
   open var available: Boolean = true
-  open var studentAbsent: Boolean = false
+  open var studentAbsent: Boolean = true
 
   @ManyToOne
   @JoinColumn(name = "student_usr")
@@ -33,7 +33,10 @@ open class Appointment {
   override fun toString(): String =
     this::class.simpleName + "(id = $id , time = $time , available = $available , studentAbsent = $studentAbsent )"
 
-  fun wasStudenAbsent(): Boolean = studentAbsent
+  fun isStudentAbsent(): Boolean {
+    return if (student == null) false
+    else studentAbsent
+  }
 
   fun isAvailable(): Boolean = available
 

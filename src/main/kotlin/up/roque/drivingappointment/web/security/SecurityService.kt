@@ -11,7 +11,6 @@ import up.roque.drivingappointment.user.admin.AdminRepository
 import up.roque.drivingappointment.user.student.Student
 import up.roque.drivingappointment.user.student.StudentRepository
 import java.util.*
-import java.util.function.Supplier
 import kotlin.collections.ArrayList
 
 const val STUDENT = "STUDENT"
@@ -61,6 +60,12 @@ class SecurityService(
 
   fun findAdmin(username: String): Optional<Admin> {
     return adminRepository.findById(username)
+  }
+
+  @Transactional
+  fun incrementStudentAttempts(student: Student) {
+    student.incrementAttempts()
+    studentRepository.save(student)
   }
 
 }

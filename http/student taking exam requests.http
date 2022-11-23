@@ -3,19 +3,19 @@ GET localhost:8080/api/appointments
 Authorization: Basic student1 password
 
 ### Reserve Appointment
-POST localhost:8080/api/appointments/reserve/29
+POST localhost:8080/api/appointments/reserve/31
 Authorization: Basic student1 password
 
 ### View my reservations
 GET localhost:8080/api/appointments/reserved
 Authorization: Basic student1 password
 
-### Start exam
-GET localhost:8080/exams/start?key=393fb5c5-a7ed-477b-a95c-cd337af89ae9
+### Start exam or get exam attempt
+GET localhost:8080/exams/start?key=2a42c409-0d30-4b82-b215-d65d7c443a199
 Authorization: Basic student1 password
 
 ### Start exam with glasses
-GET localhost:8080/exams/start?key=393fb5c5-a7ed-477b-a95c-cd337af89ae9&glasses=true
+GET localhost:8080/exams/start?key=2a42c409-0d30-4b82-b215-d65d7c443a19&glasses=true
 Authorization: Basic student1 password
 
 ### Get question
@@ -23,5 +23,5 @@ GET localhost:8080/api/questions/1
 Authorization: Basic student1 password
 
 ### Answer question in exam
-POST localhost:8080/exams?key=393fb5c5-a7ed-477b-a95c-cd337af89ae9&option=3
+POST localhost:8080/exams?key=2a42c409-0d30-4b82-b215-d65d7c443a19&option=3
 Authorization: Basic student1 password

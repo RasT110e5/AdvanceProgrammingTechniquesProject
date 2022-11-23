@@ -2,11 +2,12 @@ package up.roque.drivingappointment.user.student
 
 import org.hibernate.Hibernate
 import up.roque.drivingappointment.user.BaseUser
+import java.lang.RuntimeException
 import javax.persistence.Entity
 
 @Entity
 open class Student : BaseUser() {
-  open var attempts: Int? = 0
+  open var attempts: Int = 0
 
   override fun equals(other: Any?): Boolean {
     if (this === other) return true
@@ -21,6 +22,10 @@ open class Student : BaseUser() {
   @Override
   override fun toString(): String {
     return this::class.simpleName + "(username = $username )"
+  }
+
+  fun incrementAttempts() {
+    attempts += 1
   }
 
   companion object {

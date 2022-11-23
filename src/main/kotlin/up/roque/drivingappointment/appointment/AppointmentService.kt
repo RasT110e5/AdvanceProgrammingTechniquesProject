@@ -53,6 +53,7 @@ class AppointmentService(
   @StudentAuthorized
   fun reserveAppointment(id: Int, username: String): DrivingTestAppointment {
     val student = securityService.getStudent(username)
+    if (student.attempts >= 3) throw AlreadyAtAttemptsLimit(username)
     val appointment = drivingTestAppointmentRepository.findById(id).orElseThrow { NoAppointmentFoundForId(id) }
     if (!appointment.isAvailable()) throw AppointmentAlreadyReserved()
     appointment.reserve(student)
@@ -107,6 +108,15 @@ class AppointmentService(
     return eyeAppointment.random()
   }
 
+  @Transactional
+  fun reportStudentAttendance(appointment: DrivingTestAppointment) {
+    if (appointment.student != null) {
+      appointment.studentAbsent = false
+      securityService.incrementStudentAttempts(appointment.student!!)
+      drivingTestAppointmentRepository.save(appointment)
+    }
+  }
+
   class NoReservedAppointmentForId(id: Int, username: String) :
     RuntimeException("No appointment is reserved with id:$id and student:$username")
 
@@ -116,8 +126,10 @@ class AppointmentService(
   class AppointmentNotReservedByUser(key: UUID, username: String) :
     RuntimeException("Appointment with key:$key is not reserved by $username")
 
+  class AlreadyAtAttemptsLimit(username: String) : RuntimeException("Student '$username' has already tried 3 times")
   class AppointmentAlreadyReserved : RuntimeException("Appointment is already reserved")
   class NoAppointmentFoundForId(id: Int) : RuntimeException("No appointment found for id:$id")
   class NoAppointmentFoundForKey(key: UUID) : RuntimeException("No appointment found for key:$key")
   class NoEyeAppointmentIsAvailable : RuntimeException("No eye appointment available")
+
 }

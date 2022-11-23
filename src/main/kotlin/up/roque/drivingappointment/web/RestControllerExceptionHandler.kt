@@ -97,4 +97,11 @@ class RestControllerExceptionHandler {
     log.warn("No valid exam attempt for username exception thrown")
     return BaseRestResponse.badRequest(ex.message!!)
   }
+
+  @ExceptionHandler
+  fun handleAlreadyAtAttemptsLimit(ex: AppointmentService.AlreadyAtAttemptsLimit)
+          : ResponseEntity<BaseRestResponse<Nothing?>> {
+    log.warn("Already at attempts limit exception thrown")
+    return BaseRestResponse.badRequest(ex.message!!)
+  }
 }

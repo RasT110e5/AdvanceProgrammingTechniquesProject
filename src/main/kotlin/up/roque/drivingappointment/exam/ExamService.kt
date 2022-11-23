@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional
 import up.roque.drivingappointment.appointment.AppointmentService
 import up.roque.drivingappointment.appointment.drivingtest.DrivingTestAppointment
 import up.roque.drivingappointment.user.admin.QuestionService
+import up.roque.drivingappointment.web.security.SecurityService
 import java.lang.RuntimeException
 import java.util.*
 
@@ -13,19 +14,21 @@ import java.util.*
 class ExamService(
   private val examAttemptRepository: ExamAttemptRepository,
   private val appointmentService: AppointmentService,
-  private val questionService: QuestionService
+  private val questionService: QuestionService,
+  private val securityService: SecurityService
 ) {
-
-  @Transactional
-  fun startExam(key: UUID, username: String): ExamAttempt {
-    val appointment = appointmentService.getValidAppointmentBySecretAndUsername(key, username)
-    return getExamAttempt(appointment)
-  }
 
   @Transactional
   fun startExamWithGlasses(key: UUID, username: String): ExamAttempt {
     appointmentService.reserveRandomEyeAppointment(username)
     return startExam(key, username)
+  }
+
+  @Transactional
+  fun startExam(key: UUID, username: String): ExamAttempt {
+    val appointment = appointmentService.getValidAppointmentBySecretAndUsername(key, username)
+    appointmentService.reportStudentAttendance(appointment)
+    return getExamAttempt(appointment)
   }
 
   private fun getExamAttempt(appointment: DrivingTestAppointment): ExamAttempt {
